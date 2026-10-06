@@ -187,6 +187,111 @@ The block below is generated from the OpenAPI spec. Use the example picker in th
 [OpenAPI Orcid-POC](https://raw.githubusercontent.com/cryptalith/temp-gitbook-poc/main/openapi/orcid-member-api.json)
 {% endopenapi-operation %}
 
+## Next steps: update or delete
+
+To change the employment later, send the **whole item** back with `PUT`, including its put-code. Fields you leave out are cleared. Leave `visibility` out: changing it returns `403` (error 9035).
+
+To remove it, send `DELETE` to the same URL. ORCID answers `204 No Content`.
+
+Only the client that added an item can update or delete it. Any other client gets `403` (error 9010). The full reference for both calls is in the Reference section.
+
+{% tabs %}
+{% tab title="cURL" %}
+```bash
+# Update: promote the researcher
+curl -i -X PUT 'https://api.sandbox.orcid.org/v3.0/0000-0002-1825-0097/employment/1234567' \
+  -H 'Authorization: Bearer <ACCESS_TOKEN>' \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -d '{
+    "put-code": 1234567,
+    "department-name": "Department of Chemistry",
+    "role-title": "Professor",
+    "start-date": { "year": { "value": "2021" }, "month": { "value": "09" }, "day": { "value": "01" } },
+    "organization": {
+      "name": "Boston University",
+      "address": { "city": "Boston", "region": "MA", "country": "US" },
+      "disambiguated-organization": {
+        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+        "disambiguation-source": "ROR"
+      }
+    }
+  }'
+
+# Delete
+curl -i -X DELETE 'https://api.sandbox.orcid.org/v3.0/0000-0002-1825-0097/employment/1234567' \
+  -H 'Authorization: Bearer <ACCESS_TOKEN>' \
+  -H 'Accept: application/json'
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+import requests
+
+orcid = "0000-0002-1825-0097"
+put_code = 1234567
+url = f"https://api.sandbox.orcid.org/v3.0/{orcid}/employment/{put_code}"
+headers = {"Authorization": "Bearer <ACCESS_TOKEN>", "Accept": "application/json"}
+
+# Update: send the whole item, with its put-code
+employment = {
+    "put-code": put_code,
+    "department-name": "Department of Chemistry",
+    "role-title": "Professor",
+    "start-date": {"year": {"value": "2021"}, "month": {"value": "09"}, "day": {"value": "01"}},
+    "organization": {
+        "name": "Boston University",
+        "address": {"city": "Boston", "region": "MA", "country": "US"},
+        "disambiguated-organization": {
+            "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+            "disambiguation-source": "ROR",
+        },
+    },
+}
+requests.put(url, json=employment, headers=headers).raise_for_status()
+
+# Delete
+requests.delete(url, headers=headers).raise_for_status()
+```
+{% endtab %}
+
+{% tab title="JavaScript" %}
+```javascript
+const orcid = "0000-0002-1825-0097";
+const putCode = 1234567;
+const url = `https://api.sandbox.orcid.org/v3.0/${orcid}/employment/${putCode}`;
+const headers = { Authorization: "Bearer <ACCESS_TOKEN>", Accept: "application/json" };
+
+// Update: send the whole item, with its put-code
+const employment = {
+  "put-code": putCode,
+  "department-name": "Department of Chemistry",
+  "role-title": "Professor",
+  "start-date": { year: { value: "2021" }, month: { value: "09" }, day: { value: "01" } },
+  organization: {
+    name: "Boston University",
+    address: { city: "Boston", region: "MA", country: "US" },
+    "disambiguated-organization": {
+      "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+      "disambiguation-source": "ROR",
+    },
+  },
+};
+const updated = await fetch(url, {
+  method: "PUT",
+  headers: { ...headers, "Content-Type": "application/json" },
+  body: JSON.stringify(employment),
+});
+if (!updated.ok) throw new Error(JSON.stringify(await updated.json()));
+
+// Delete
+const deleted = await fetch(url, { method: "DELETE", headers });
+if (deleted.status !== 204) throw new Error(`Delete failed: ${deleted.status}`);
+```
+{% endtab %}
+{% endtabs %}
+
 ## More example bodies
 
 <details>

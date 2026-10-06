@@ -969,6 +969,71 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/EmploymentUpdate"
+              },
+              "examples": {
+                "change-role": {
+                  "summary": "Promotion: change the role title",
+                  "description": "Send the whole item with its put-code. Fields you leave out are cleared.",
+                  "value": {
+                    "put-code": 1234567,
+                    "department-name": "Department of Chemistry",
+                    "role-title": "Professor",
+                    "start-date": {
+                      "year": {
+                        "value": "2021"
+                      },
+                      "month": {
+                        "value": "09"
+                      },
+                      "day": {
+                        "value": "01"
+                      }
+                    },
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "region": "MA",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    }
+                  }
+                },
+                "put-code-mismatch": {
+                  "summary": "Error: put-code doesn't match the URL",
+                  "value": {
+                    "put-code": 7654321,
+                    "department-name": "Department of Chemistry",
+                    "role-title": "Professor",
+                    "start-date": {
+                      "year": {
+                        "value": "2021"
+                      },
+                      "month": {
+                        "value": "09"
+                      },
+                      "day": {
+                        "value": "01"
+                      }
+                    },
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "region": "MA",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -982,8 +1047,8 @@
                   "$ref": "#/components/schemas/Employment"
                 },
                 "examples": {
-                  "sample": {
-                    "summary": "Sample",
+                  "change-role": {
+                    "summary": "Updated employment",
                     "value": {
                       "created-date": {
                         "value": 1700000000000
@@ -1007,7 +1072,7 @@
                       },
                       "put-code": 1234567,
                       "department-name": "Department of Chemistry",
-                      "role-title": "Associate Professor",
+                      "role-title": "Professor",
                       "start-date": {
                         "year": {
                           "value": "2021"
@@ -1072,6 +1137,16 @@
                       "developer-message": "400 Bad request: invalid date: 2023-02-30",
                       "user-message": "Invalid date",
                       "error-code": 9049,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  },
+                  "put-code-mismatch": {
+                    "summary": "Put-code doesn't match the URL (9019)",
+                    "value": {
+                      "response-code": 400,
+                      "developer-message": "400 Bad Request: The put code in the URL was 1234567 whereas the one in the body was 7654321.",
+                      "user-message": "There was an error when updating the record. Please try again. If the error persists, please contact Example Member App for assistance.",
+                      "error-code": 9019,
                       "more-info": "https://members.orcid.org/api/resources/troubleshooting"
                     }
                   }
