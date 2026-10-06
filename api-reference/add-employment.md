@@ -15,6 +15,8 @@ Everything on this page uses the **sandbox**: `sandbox.orcid.org` for OAuth and 
 
 ## Before you start
 
+New to the Member API? Read [Get started with the ORCID Member API](quickstart.md) first.
+
 You need three things:
 
 1. **Sandbox member API credentials**, a client ID and a client secret. [Request credentials](https://orcid.org/content/register-client-application).

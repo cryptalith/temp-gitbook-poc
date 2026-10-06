@@ -56,12 +56,12 @@
         ],
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "orcidOAuth": [
               "/activities/update"
             ]
-          },
-          {
-            "bearerAuth": []
           }
         ],
         "requestBody": {
@@ -581,12 +581,12 @@
         ],
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "orcidOAuth": [
               "/read-limited"
             ]
-          },
-          {
-            "bearerAuth": []
           }
         ],
         "responses": {
@@ -783,12 +783,12 @@
         ],
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "orcidOAuth": [
               "/read-limited"
             ]
-          },
-          {
-            "bearerAuth": []
           }
         ],
         "responses": {
@@ -955,12 +955,12 @@
         ],
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "orcidOAuth": [
               "/activities/update"
             ]
-          },
-          {
-            "bearerAuth": []
           }
         ],
         "requestBody": {
@@ -1171,12 +1171,12 @@
         ],
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "orcidOAuth": [
               "/activities/update"
             ]
-          },
-          {
-            "bearerAuth": []
           }
         ],
         "responses": {
@@ -1285,12 +1285,12 @@
         ],
         "security": [
           {
+            "bearerAuth": []
+          },
+          {
             "orcidOAuth": [
               "/read-limited"
             ]
-          },
-          {
-            "bearerAuth": []
           }
         ],
         "responses": {

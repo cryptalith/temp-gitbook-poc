@@ -1,5 +1,6 @@
 # Table of contents
 
+* [Get started](quickstart.md)
 * [Add an employment](add-employment.md)
 
 ## Reference
