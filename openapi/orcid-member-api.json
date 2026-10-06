@@ -1,0 +1,1985 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "ORCID Member API",
+    "version": "3.0",
+    "description": "The ORCID Member API lets ORCID member organizations read and update researchers' ORCID records with their permission. This reference covers the **employment** section of a record.\n\nEvery call needs an access token that the record owner granted to your member client through 3-legged OAuth: `https://sandbox.orcid.org/oauth/authorize` to ask for permission, then `https://sandbox.orcid.org/oauth/token` to exchange the code (in production, the same paths on `orcid.org`).\n\nSend `Accept: application/json` on every request. Without it the API answers in XML.",
+    "contact": {
+      "name": "ORCID support",
+      "url": "https://info.orcid.org/contact-us/"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.sandbox.orcid.org",
+      "description": "Sandbox: test records, safe to experiment"
+    },
+    {
+      "url": "https://api.orcid.org",
+      "description": "Production: real records"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Employment",
+      "description": "Employment affiliations on a researcher's ORCID record: where they work or have worked. Your client can add employments, and can update or delete only the ones it added.",
+      "x-page-icon": "briefcase"
+    }
+  ],
+  "x-readme": {
+    "samples-languages": [
+      "shell",
+      "python",
+      "node"
+    ],
+    "headers": [
+      {
+        "key": "Accept",
+        "value": "application/json"
+      }
+    ]
+  },
+  "x-enable-proxy": true,
+  "paths": {
+    "/v3.0/{orcid}/employment": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/orcid"
+        }
+      ],
+      "post": {
+        "operationId": "add-employment",
+        "summary": "Add an employment",
+        "description": "Adds an employment affiliation to the record of the user who granted your token. Your client becomes the item's **source**, so only your client can update or delete it later.\n\nThe response has **no body**. The new item's put-code is the last segment of the `Location` header: store it if you will update or delete the item.\n\nRequires the `/activities/update` scope. Send `Accept: application/json` so that errors come back as JSON.",
+        "tags": [
+          "Employment"
+        ],
+        "security": [
+          {
+            "orcidOAuth": [
+              "/activities/update"
+            ]
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "The employment to add. Only `organization` is required.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmploymentCreate"
+              },
+              "examples": {
+                "minimal": {
+                  "summary": "Minimal: organization only",
+                  "description": "The smallest valid body. Dates, role and department are all optional.",
+                  "value": {
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    }
+                  }
+                },
+                "current-position": {
+                  "summary": "Current position (no end date)",
+                  "description": "An ongoing role: send a start date and leave out end-date.",
+                  "value": {
+                    "department-name": "Department of Chemistry",
+                    "role-title": "Associate Professor",
+                    "start-date": {
+                      "year": {
+                        "value": "2021"
+                      },
+                      "month": {
+                        "value": "09"
+                      },
+                      "day": {
+                        "value": "01"
+                      }
+                    },
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "region": "MA",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    }
+                  }
+                },
+                "past-position": {
+                  "summary": "Past position with dates and URL",
+                  "description": "A finished role. Partial dates are fine; month and day are zero-padded strings.",
+                  "value": {
+                    "department-name": "School of Public Health",
+                    "role-title": "Postdoctoral Researcher",
+                    "start-date": {
+                      "year": {
+                        "value": "2016"
+                      },
+                      "month": {
+                        "value": "01"
+                      }
+                    },
+                    "end-date": {
+                      "year": {
+                        "value": "2019"
+                      },
+                      "month": {
+                        "value": "12"
+                      },
+                      "day": {
+                        "value": "31"
+                      }
+                    },
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "region": "MA",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    },
+                    "url": {
+                      "value": "https://www.bu.edu/sph/"
+                    }
+                  }
+                },
+                "with-external-id": {
+                  "summary": "With an external identifier",
+                  "description": "A `self` external identifier lets ORCID reject a second POST of the same item from your client with 409 (error 9021) instead of creating a duplicate.",
+                  "value": {
+                    "role-title": "Research Fellow",
+                    "start-date": {
+                      "year": {
+                        "value": "2023"
+                      }
+                    },
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "region": "MA",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    },
+                    "external-ids": {
+                      "external-id": [
+                        {
+                          "external-id-type": "other-id",
+                          "external-id-value": "BU-HR-000123",
+                          "external-id-url": {
+                            "value": "https://hr.example.org/staff/000123"
+                          },
+                          "external-id-relationship": "self"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "missing-city": {
+                  "summary": "Error: missing city",
+                  "description": "Employment and education need both city and country in the organization address.",
+                  "value": {
+                    "role-title": "Lecturer",
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    }
+                  }
+                },
+                "put-code-on-create": {
+                  "summary": "Error: put-code sent on create",
+                  "description": "ORCID assigns the put-code. Leave it out when you POST.",
+                  "value": {
+                    "put-code": 1234567,
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    }
+                  }
+                },
+                "unknown-organization": {
+                  "summary": "Error: organization not in ORCID's registry",
+                  "description": "The identifier and source pair must match an organization ORCID already knows.",
+                  "value": {
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/000000000",
+                        "disambiguation-source": "ROR"
+                      }
+                    }
+                  }
+                },
+                "end-before-start": {
+                  "summary": "Error: end date before start date",
+                  "value": {
+                    "start-date": {
+                      "year": {
+                        "value": "2020"
+                      }
+                    },
+                    "end-date": {
+                      "year": {
+                        "value": "2018"
+                      }
+                    },
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    }
+                  }
+                },
+                "duplicate": {
+                  "summary": "Error: duplicate (same external ID twice)",
+                  "description": "The same body as \"With an external identifier\", sent a second time by the same client.",
+                  "value": {
+                    "role-title": "Research Fellow",
+                    "start-date": {
+                      "year": {
+                        "value": "2023"
+                      }
+                    },
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "region": "MA",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    },
+                    "external-ids": {
+                      "external-id": [
+                        {
+                          "external-id-type": "other-id",
+                          "external-id-value": "BU-HR-000123",
+                          "external-id-url": {
+                            "value": "https://hr.example.org/staff/000123"
+                          },
+                          "external-id-relationship": "self"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created. **The response has no body.** The new item's put-code is the last segment of the `Location` header.",
+            "headers": {
+              "Location": {
+                "description": "URL of the new employment. Its last segment is the put-code.",
+                "schema": {
+                  "type": "string",
+                  "format": "uri",
+                  "example": "https://api.sandbox.orcid.org/v3.0/0000-0002-1825-0097/employment/1234567"
+                }
+              }
+            },
+            "x-hideSample": true,
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "maxLength": 0,
+                  "description": "Empty body."
+                },
+                "examples": {
+                  "minimal": {
+                    "summary": "201 Created (Minimal: organization only): empty body, put-code in Location",
+                    "value": ""
+                  },
+                  "current-position": {
+                    "summary": "201 Created (Current position (no end date)): empty body, put-code in Location",
+                    "value": ""
+                  },
+                  "past-position": {
+                    "summary": "201 Created (Past position with dates and URL): empty body, put-code in Location",
+                    "value": ""
+                  },
+                  "with-external-id": {
+                    "summary": "201 Created (With an external identifier): empty body, put-code in Location",
+                    "value": ""
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body failed validation. `error-code` says which rule.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "invalid-json": {
+                    "summary": "Malformed or schema-invalid JSON (9047)",
+                    "description": "Unknown fields, empty strings, years outside 1900-2100 and similar schema problems. The text after \"Full validation error\" names the problem.",
+                    "value": {
+                      "response-code": 400,
+                      "developer-message": "400 Bad request: invalid JSON - ${error} Full validation error: ...",
+                      "user-message": "Invalid JSON.",
+                      "error-code": 9047,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  },
+                  "invalid-date": {
+                    "summary": "Date that doesn't exist (9049)",
+                    "description": "For example 30 February.",
+                    "value": {
+                      "response-code": 400,
+                      "developer-message": "400 Bad request: invalid date: 2023-02-30",
+                      "user-message": "Invalid date",
+                      "error-code": 9049,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  },
+                  "missing-city": {
+                    "summary": "missing city",
+                    "value": {
+                      "response-code": 400,
+                      "developer-message": "City and country are required for education/employment.",
+                      "user-message": "City and country are required for education/employment.",
+                      "error-code": 9060,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  },
+                  "put-code-on-create": {
+                    "summary": "put-code sent on create",
+                    "value": {
+                      "response-code": 400,
+                      "developer-message": "400 Bad Request: Put-code is included when not expected. When posting new activities, the put code should be omitted.",
+                      "user-message": "There was an error when updating the record. Please try again. If the error persists, please contact Example Member App for assistance.",
+                      "error-code": 9024,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  },
+                  "unknown-organization": {
+                    "summary": "organization not in ORCID's registry",
+                    "value": {
+                      "response-code": 400,
+                      "developer-message": "400 Bad request: disambiguated-organization must be present and valid",
+                      "user-message": "No valid disambiguated-organization is included in the data.",
+                      "error-code": 9045,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  },
+                  "end-before-start": {
+                    "summary": "end date before start date",
+                    "value": {
+                      "response-code": 400,
+                      "developer-message": "400 Bad Request: End date must come after start date.",
+                      "user-message": "End date must come after start date.",
+                      "error-code": 9055,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The token is missing, expired or revoked, or was issued for a different ORCID iD.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/OAuthError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OrcidError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "invalid-token": {
+                    "summary": "Expired, revoked or unknown token",
+                    "value": {
+                      "error": "invalid_token",
+                      "error_description": "Invalid access token: <ACCESS_TOKEN>"
+                    }
+                  },
+                  "wrong-record": {
+                    "summary": "Token issued for a different ORCID iD (9017)",
+                    "value": {
+                      "response-code": 401,
+                      "developer-message": "401 Unauthorized: The client application is not authorized for this ORCID record.",
+                      "user-message": "The client application is not authorized.",
+                      "error-code": 9017,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token doesn't have the scope this call needs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "missing-scope": {
+                    "summary": "Token lacks the scope this call needs (9038)",
+                    "description": "The message says 409 but the HTTP status is 403.",
+                    "value": {
+                      "response-code": 403,
+                      "developer-message": "409 Conflict: The item has a limited or private visibility and your request doesn't have the required scope.",
+                      "user-message": "You don't have the permissions to execute this action.",
+                      "error-code": 9038,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The ORCID iD, or the put-code on this record, doesn't exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "unknown-orcid": {
+                    "summary": "ORCID iD not found (9016)",
+                    "value": {
+                      "response-code": 404,
+                      "developer-message": "404 Not Found: The resource was not found.",
+                      "user-message": "The resource was not found.",
+                      "error-code": 9016,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict. Your client already added an employment with the same `self` external identifier.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "duplicate": {
+                    "summary": "duplicate (same external ID twice)",
+                    "value": {
+                      "response-code": 409,
+                      "developer-message": "409 Conflict: You have already added this activity (matched by external identifiers), please see element with put-code 1234567. If you are trying to edit the item, please use PUT instead of POST.",
+                      "user-message": "There was an error when updating the record. Please try again. If the error persists, please contact Example Member App for assistance.",
+                      "error-code": 9021,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3.0/{orcid}/employments": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/orcid"
+        }
+      ],
+      "get": {
+        "operationId": "list-employments",
+        "summary": "List employments",
+        "description": "Returns the employments on the record, grouped by shared external identifiers. Items with limited or private visibility are left out unless the token has `/read-limited` or your client added them.",
+        "tags": [
+          "Employment"
+        ],
+        "security": [
+          {
+            "orcidOAuth": [
+              "/read-limited"
+            ]
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The employments on the record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employments"
+                },
+                "examples": {
+                  "sample": {
+                    "summary": "Sample",
+                    "value": {
+                      "last-modified-date": {
+                        "value": 1700000000000
+                      },
+                      "affiliation-group": [
+                        {
+                          "last-modified-date": {
+                            "value": 1700000000000
+                          },
+                          "external-ids": {
+                            "external-id": []
+                          },
+                          "summaries": [
+                            {
+                              "employment-summary": {
+                                "created-date": {
+                                  "value": 1700000000000
+                                },
+                                "last-modified-date": {
+                                  "value": 1700000000000
+                                },
+                                "source": {
+                                  "source-orcid": null,
+                                  "source-client-id": {
+                                    "uri": "https://sandbox.orcid.org/client/APP-XXXXXXXXXXXXXXXX",
+                                    "path": "APP-XXXXXXXXXXXXXXXX",
+                                    "host": "sandbox.orcid.org"
+                                  },
+                                  "source-name": {
+                                    "value": "Example Member App"
+                                  },
+                                  "assertion-origin-orcid": null,
+                                  "assertion-origin-client-id": null,
+                                  "assertion-origin-name": null
+                                },
+                                "put-code": 1234567,
+                                "department-name": "Department of Chemistry",
+                                "role-title": "Associate Professor",
+                                "start-date": {
+                                  "year": {
+                                    "value": "2021"
+                                  },
+                                  "month": {
+                                    "value": "09"
+                                  },
+                                  "day": {
+                                    "value": "01"
+                                  }
+                                },
+                                "end-date": null,
+                                "organization": {
+                                  "name": "Boston University",
+                                  "address": {
+                                    "city": "Boston",
+                                    "region": "MA",
+                                    "country": "US"
+                                  },
+                                  "disambiguated-organization": {
+                                    "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                                    "disambiguation-source": "ROR"
+                                  }
+                                },
+                                "url": null,
+                                "external-ids": {
+                                  "external-id": []
+                                },
+                                "display-index": "0",
+                                "visibility": "public",
+                                "path": "/0000-0002-1825-0097/employment/1234567"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "path": "/0000-0002-1825-0097/employments"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The token is missing, expired or revoked, or was issued for a different ORCID iD.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/OAuthError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OrcidError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "invalid-token": {
+                    "summary": "Expired, revoked or unknown token",
+                    "value": {
+                      "error": "invalid_token",
+                      "error_description": "Invalid access token: <ACCESS_TOKEN>"
+                    }
+                  },
+                  "wrong-record": {
+                    "summary": "Token issued for a different ORCID iD (9017)",
+                    "value": {
+                      "response-code": 401,
+                      "developer-message": "401 Unauthorized: The client application is not authorized for this ORCID record.",
+                      "user-message": "The client application is not authorized.",
+                      "error-code": 9017,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token doesn't have the scope this call needs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "missing-scope": {
+                    "summary": "Token lacks the scope this call needs (9038)",
+                    "description": "The message says 409 but the HTTP status is 403.",
+                    "value": {
+                      "response-code": 403,
+                      "developer-message": "409 Conflict: The item has a limited or private visibility and your request doesn't have the required scope.",
+                      "user-message": "You don't have the permissions to execute this action.",
+                      "error-code": 9038,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The ORCID iD, or the put-code on this record, doesn't exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "unknown-orcid": {
+                    "summary": "ORCID iD not found (9016)",
+                    "value": {
+                      "response-code": 404,
+                      "developer-message": "404 Not Found: The resource was not found.",
+                      "user-message": "The resource was not found.",
+                      "error-code": 9016,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3.0/{orcid}/employment/{putCode}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/orcid"
+        },
+        {
+          "$ref": "#/components/parameters/putCode"
+        }
+      ],
+      "get": {
+        "operationId": "get-employment",
+        "summary": "Get an employment",
+        "description": "Returns one employment in full.",
+        "tags": [
+          "Employment"
+        ],
+        "security": [
+          {
+            "orcidOAuth": [
+              "/read-limited"
+            ]
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The employment.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employment"
+                },
+                "examples": {
+                  "sample": {
+                    "summary": "Sample",
+                    "value": {
+                      "created-date": {
+                        "value": 1700000000000
+                      },
+                      "last-modified-date": {
+                        "value": 1700000000000
+                      },
+                      "source": {
+                        "source-orcid": null,
+                        "source-client-id": {
+                          "uri": "https://sandbox.orcid.org/client/APP-XXXXXXXXXXXXXXXX",
+                          "path": "APP-XXXXXXXXXXXXXXXX",
+                          "host": "sandbox.orcid.org"
+                        },
+                        "source-name": {
+                          "value": "Example Member App"
+                        },
+                        "assertion-origin-orcid": null,
+                        "assertion-origin-client-id": null,
+                        "assertion-origin-name": null
+                      },
+                      "put-code": 1234567,
+                      "department-name": "Department of Chemistry",
+                      "role-title": "Associate Professor",
+                      "start-date": {
+                        "year": {
+                          "value": "2021"
+                        },
+                        "month": {
+                          "value": "09"
+                        },
+                        "day": {
+                          "value": "01"
+                        }
+                      },
+                      "end-date": null,
+                      "organization": {
+                        "name": "Boston University",
+                        "address": {
+                          "city": "Boston",
+                          "region": "MA",
+                          "country": "US"
+                        },
+                        "disambiguated-organization": {
+                          "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                          "disambiguation-source": "ROR"
+                        }
+                      },
+                      "url": null,
+                      "external-ids": {
+                        "external-id": []
+                      },
+                      "display-index": "0",
+                      "visibility": "public",
+                      "path": "/0000-0002-1825-0097/employment/1234567"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The token is missing, expired or revoked, or was issued for a different ORCID iD.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/OAuthError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OrcidError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "invalid-token": {
+                    "summary": "Expired, revoked or unknown token",
+                    "value": {
+                      "error": "invalid_token",
+                      "error_description": "Invalid access token: <ACCESS_TOKEN>"
+                    }
+                  },
+                  "wrong-record": {
+                    "summary": "Token issued for a different ORCID iD (9017)",
+                    "value": {
+                      "response-code": 401,
+                      "developer-message": "401 Unauthorized: The client application is not authorized for this ORCID record.",
+                      "user-message": "The client application is not authorized.",
+                      "error-code": 9017,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token doesn't have the scope this call needs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "missing-scope": {
+                    "summary": "Token lacks the scope this call needs (9038)",
+                    "description": "The message says 409 but the HTTP status is 403.",
+                    "value": {
+                      "response-code": 403,
+                      "developer-message": "409 Conflict: The item has a limited or private visibility and your request doesn't have the required scope.",
+                      "user-message": "You don't have the permissions to execute this action.",
+                      "error-code": 9038,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The ORCID iD, or the put-code on this record, doesn't exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "unknown-orcid": {
+                    "summary": "ORCID iD not found (9016)",
+                    "value": {
+                      "response-code": 404,
+                      "developer-message": "404 Not Found: The resource was not found.",
+                      "user-message": "The resource was not found.",
+                      "error-code": 9016,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "update-employment",
+        "summary": "Update an employment",
+        "description": "Replaces an employment your client added. The `put-code` in the body must match the URL. Only the client that added the item can update it (otherwise 403, error 9010).",
+        "tags": [
+          "Employment"
+        ],
+        "security": [
+          {
+            "orcidOAuth": [
+              "/activities/update"
+            ]
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmploymentUpdate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated. The body is the updated employment.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employment"
+                },
+                "examples": {
+                  "sample": {
+                    "summary": "Sample",
+                    "value": {
+                      "created-date": {
+                        "value": 1700000000000
+                      },
+                      "last-modified-date": {
+                        "value": 1700000000000
+                      },
+                      "source": {
+                        "source-orcid": null,
+                        "source-client-id": {
+                          "uri": "https://sandbox.orcid.org/client/APP-XXXXXXXXXXXXXXXX",
+                          "path": "APP-XXXXXXXXXXXXXXXX",
+                          "host": "sandbox.orcid.org"
+                        },
+                        "source-name": {
+                          "value": "Example Member App"
+                        },
+                        "assertion-origin-orcid": null,
+                        "assertion-origin-client-id": null,
+                        "assertion-origin-name": null
+                      },
+                      "put-code": 1234567,
+                      "department-name": "Department of Chemistry",
+                      "role-title": "Associate Professor",
+                      "start-date": {
+                        "year": {
+                          "value": "2021"
+                        },
+                        "month": {
+                          "value": "09"
+                        },
+                        "day": {
+                          "value": "01"
+                        }
+                      },
+                      "end-date": null,
+                      "organization": {
+                        "name": "Boston University",
+                        "address": {
+                          "city": "Boston",
+                          "region": "MA",
+                          "country": "US"
+                        },
+                        "disambiguated-organization": {
+                          "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                          "disambiguation-source": "ROR"
+                        }
+                      },
+                      "url": null,
+                      "external-ids": {
+                        "external-id": []
+                      },
+                      "display-index": "0",
+                      "visibility": "public",
+                      "path": "/0000-0002-1825-0097/employment/1234567"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The body failed validation, or its put-code doesn't match the URL.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "invalid-json": {
+                    "summary": "Malformed or schema-invalid JSON (9047)",
+                    "description": "Unknown fields, empty strings, years outside 1900-2100 and similar schema problems. The text after \"Full validation error\" names the problem.",
+                    "value": {
+                      "response-code": 400,
+                      "developer-message": "400 Bad request: invalid JSON - ${error} Full validation error: ...",
+                      "user-message": "Invalid JSON.",
+                      "error-code": 9047,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  },
+                  "invalid-date": {
+                    "summary": "Date that doesn't exist (9049)",
+                    "description": "For example 30 February.",
+                    "value": {
+                      "response-code": 400,
+                      "developer-message": "400 Bad request: invalid date: 2023-02-30",
+                      "user-message": "Invalid date",
+                      "error-code": 9049,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The token is missing, expired or revoked, or was issued for a different ORCID iD.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/OAuthError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OrcidError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "invalid-token": {
+                    "summary": "Expired, revoked or unknown token",
+                    "value": {
+                      "error": "invalid_token",
+                      "error_description": "Invalid access token: <ACCESS_TOKEN>"
+                    }
+                  },
+                  "wrong-record": {
+                    "summary": "Token issued for a different ORCID iD (9017)",
+                    "value": {
+                      "response-code": 401,
+                      "developer-message": "401 Unauthorized: The client application is not authorized for this ORCID record.",
+                      "user-message": "The client application is not authorized.",
+                      "error-code": 9017,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token doesn't have the scope this call needs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "missing-scope": {
+                    "summary": "Token lacks the scope this call needs (9038)",
+                    "description": "The message says 409 but the HTTP status is 403.",
+                    "value": {
+                      "response-code": 403,
+                      "developer-message": "409 Conflict: The item has a limited or private visibility and your request doesn't have the required scope.",
+                      "user-message": "You don't have the permissions to execute this action.",
+                      "error-code": 9038,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The ORCID iD, or the put-code on this record, doesn't exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "unknown-orcid": {
+                    "summary": "ORCID iD not found (9016)",
+                    "value": {
+                      "response-code": 404,
+                      "developer-message": "404 Not Found: The resource was not found.",
+                      "user-message": "The resource was not found.",
+                      "error-code": 9016,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete-employment",
+        "summary": "Delete an employment",
+        "description": "Deletes an employment your client added. Only the client that added the item can delete it (otherwise 403, error 9010).",
+        "tags": [
+          "Employment"
+        ],
+        "security": [
+          {
+            "orcidOAuth": [
+              "/activities/update"
+            ]
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted. No body."
+          },
+          "401": {
+            "description": "The token is missing, expired or revoked, or was issued for a different ORCID iD.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/OAuthError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OrcidError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "invalid-token": {
+                    "summary": "Expired, revoked or unknown token",
+                    "value": {
+                      "error": "invalid_token",
+                      "error_description": "Invalid access token: <ACCESS_TOKEN>"
+                    }
+                  },
+                  "wrong-record": {
+                    "summary": "Token issued for a different ORCID iD (9017)",
+                    "value": {
+                      "response-code": 401,
+                      "developer-message": "401 Unauthorized: The client application is not authorized for this ORCID record.",
+                      "user-message": "The client application is not authorized.",
+                      "error-code": 9017,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token doesn't have the scope this call needs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "missing-scope": {
+                    "summary": "Token lacks the scope this call needs (9038)",
+                    "description": "The message says 409 but the HTTP status is 403.",
+                    "value": {
+                      "response-code": 403,
+                      "developer-message": "409 Conflict: The item has a limited or private visibility and your request doesn't have the required scope.",
+                      "user-message": "You don't have the permissions to execute this action.",
+                      "error-code": 9038,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The ORCID iD, or the put-code on this record, doesn't exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "unknown-orcid": {
+                    "summary": "ORCID iD not found (9016)",
+                    "value": {
+                      "response-code": 404,
+                      "developer-message": "404 Not Found: The resource was not found.",
+                      "user-message": "The resource was not found.",
+                      "error-code": 9016,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v3.0/{orcid}/employment/summary/{putCode}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/orcid"
+        },
+        {
+          "$ref": "#/components/parameters/putCode"
+        }
+      ],
+      "get": {
+        "operationId": "get-employment-summary",
+        "summary": "Get an employment summary",
+        "description": "Returns the summary form of one employment.",
+        "tags": [
+          "Employment"
+        ],
+        "security": [
+          {
+            "orcidOAuth": [
+              "/read-limited"
+            ]
+          },
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The employment summary.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmploymentSummary"
+                },
+                "examples": {
+                  "sample": {
+                    "summary": "Sample",
+                    "value": {
+                      "created-date": {
+                        "value": 1700000000000
+                      },
+                      "last-modified-date": {
+                        "value": 1700000000000
+                      },
+                      "source": {
+                        "source-orcid": null,
+                        "source-client-id": {
+                          "uri": "https://sandbox.orcid.org/client/APP-XXXXXXXXXXXXXXXX",
+                          "path": "APP-XXXXXXXXXXXXXXXX",
+                          "host": "sandbox.orcid.org"
+                        },
+                        "source-name": {
+                          "value": "Example Member App"
+                        },
+                        "assertion-origin-orcid": null,
+                        "assertion-origin-client-id": null,
+                        "assertion-origin-name": null
+                      },
+                      "put-code": 1234567,
+                      "department-name": "Department of Chemistry",
+                      "role-title": "Associate Professor",
+                      "start-date": {
+                        "year": {
+                          "value": "2021"
+                        },
+                        "month": {
+                          "value": "09"
+                        },
+                        "day": {
+                          "value": "01"
+                        }
+                      },
+                      "end-date": null,
+                      "organization": {
+                        "name": "Boston University",
+                        "address": {
+                          "city": "Boston",
+                          "region": "MA",
+                          "country": "US"
+                        },
+                        "disambiguated-organization": {
+                          "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                          "disambiguation-source": "ROR"
+                        }
+                      },
+                      "url": null,
+                      "external-ids": {
+                        "external-id": []
+                      },
+                      "display-index": "0",
+                      "visibility": "public",
+                      "path": "/0000-0002-1825-0097/employment/1234567"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The token is missing, expired or revoked, or was issued for a different ORCID iD.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/OAuthError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OrcidError"
+                    }
+                  ]
+                },
+                "examples": {
+                  "invalid-token": {
+                    "summary": "Expired, revoked or unknown token",
+                    "value": {
+                      "error": "invalid_token",
+                      "error_description": "Invalid access token: <ACCESS_TOKEN>"
+                    }
+                  },
+                  "wrong-record": {
+                    "summary": "Token issued for a different ORCID iD (9017)",
+                    "value": {
+                      "response-code": 401,
+                      "developer-message": "401 Unauthorized: The client application is not authorized for this ORCID record.",
+                      "user-message": "The client application is not authorized.",
+                      "error-code": 9017,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The token doesn't have the scope this call needs.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "missing-scope": {
+                    "summary": "Token lacks the scope this call needs (9038)",
+                    "description": "The message says 409 but the HTTP status is 403.",
+                    "value": {
+                      "response-code": 403,
+                      "developer-message": "409 Conflict: The item has a limited or private visibility and your request doesn't have the required scope.",
+                      "user-message": "You don't have the permissions to execute this action.",
+                      "error-code": 9038,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The ORCID iD, or the put-code on this record, doesn't exist.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                },
+                "examples": {
+                  "unknown-orcid": {
+                    "summary": "ORCID iD not found (9016)",
+                    "value": {
+                      "response-code": 404,
+                      "developer-message": "404 Not Found: The resource was not found.",
+                      "user-message": "The resource was not found.",
+                      "error-code": 9016,
+                      "more-info": "https://members.orcid.org/api/resources/troubleshooting"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "orcid": {
+        "name": "orcid",
+        "in": "path",
+        "required": true,
+        "description": "The ORCID iD of the record owner: the user who granted your token. Use the `orcid` value from the token response.",
+        "schema": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$",
+          "example": "0000-0002-1825-0097"
+        }
+      },
+      "putCode": {
+        "name": "putCode",
+        "in": "path",
+        "required": true,
+        "description": "The put-code ORCID assigned when the item was created (the last segment of the `Location` header).",
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1234567
+        }
+      }
+    },
+    "securitySchemes": {
+      "orcidOAuth": {
+        "type": "oauth2",
+        "description": "3-legged OAuth: the record owner signs in to ORCID and grants your client the scopes. Sandbox URLs are shown; in production use `https://orcid.org/oauth/authorize` and `https://orcid.org/oauth/token`.",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://sandbox.orcid.org/oauth/authorize",
+            "tokenUrl": "https://sandbox.orcid.org/oauth/token",
+            "scopes": {
+              "/activities/update": "Add, update and delete activities, including employment.",
+              "/read-limited": "Read items the record owner shared with trusted parties."
+            }
+          }
+        }
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Paste an access token you already have: the `access_token` from the token response.",
+        "x-gitbook-token-placeholder": "YOUR_ACCESS_TOKEN"
+      }
+    },
+    "schemas": {
+      "Visibility": {
+        "type": "string",
+        "enum": [
+          "public",
+          "limited",
+          "registered-only",
+          "private"
+        ],
+        "description": "Who can see the item. On create, a claimed record applies the user's own default visibility and ignores this value. On update, leave it out or send the current value: changing it returns 403 (9035)."
+      },
+      "Year": {
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "pattern": "^(19[0-9]{2}|20[0-9]{2}|2100)$",
+            "example": "2021"
+          }
+        },
+        "description": "Four-digit year between 1900 and 2100."
+      },
+      "Month": {
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "pattern": "^(0[1-9]|1[0-2])$",
+            "example": "09"
+          }
+        },
+        "description": "Two-digit month, zero-padded."
+      },
+      "Day": {
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "pattern": "^(0[1-9]|[12][0-9]|3[01])$",
+            "example": "01"
+          }
+        },
+        "description": "Two-digit day, zero-padded. Only allowed together with a month."
+      },
+      "FuzzyDate": {
+        "type": "object",
+        "description": "A full or partial date. Year is required; a day needs a month. The date must exist on the calendar (otherwise 400, error 9049).",
+        "required": [
+          "year"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "year": {
+            "$ref": "#/components/schemas/Year"
+          },
+          "month": {
+            "$ref": "#/components/schemas/Month"
+          },
+          "day": {
+            "$ref": "#/components/schemas/Day"
+          }
+        }
+      },
+      "Url": {
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "value": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://www.bu.edu/"
+          }
+        },
+        "description": "A URL, wrapped in an object."
+      },
+      "OrganizationAddress": {
+        "type": "object",
+        "description": "Employment needs both city and country (otherwise 400, error 9060).",
+        "required": [
+          "city",
+          "country"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "city": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000,
+            "example": "Boston"
+          },
+          "region": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000,
+            "description": "State, province or region. Optional.",
+            "example": "MA"
+          },
+          "country": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$",
+            "example": "US",
+            "description": "ISO 3166-1 alpha-2 country code, upper case."
+          }
+        }
+      },
+      "DisambiguatedOrganization": {
+        "type": "object",
+        "description": "A persistent identifier for the organization. The identifier and source pair must match an organization in ORCID's registry, otherwise 400 (error 9045). Prefer ROR.",
+        "required": [
+          "disambiguated-organization-identifier",
+          "disambiguation-source"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "disambiguated-organization-identifier": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500,
+            "example": "https://ror.org/05qwgg493",
+            "description": "For ROR, the full ROR URL."
+          },
+          "disambiguation-source": {
+            "type": "string",
+            "enum": [
+              "ROR",
+              "FUNDREF",
+              "RINGGOLD",
+              "GRID",
+              "LEI"
+            ],
+            "example": "ROR"
+          }
+        }
+      },
+      "Organization": {
+        "type": "object",
+        "required": [
+          "name",
+          "address",
+          "disambiguated-organization"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000,
+            "example": "Boston University"
+          },
+          "address": {
+            "$ref": "#/components/schemas/OrganizationAddress"
+          },
+          "disambiguated-organization": {
+            "$ref": "#/components/schemas/DisambiguatedOrganization"
+          }
+        }
+      },
+      "ExternalId": {
+        "type": "object",
+        "required": [
+          "external-id-type",
+          "external-id-value"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "external-id-type": {
+            "type": "string",
+            "example": "other-id",
+            "description": "An identifier type from ORCID's list, for example `other-id`."
+          },
+          "external-id-value": {
+            "type": "string",
+            "example": "BU-HR-000123"
+          },
+          "external-id-url": {
+            "type": "object",
+            "required": [
+              "value"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "description": "Link for the identifier."
+          },
+          "external-id-relationship": {
+            "type": "string",
+            "enum": [
+              "self",
+              "part-of",
+              "version-of",
+              "funded-by"
+            ],
+            "description": "Use `self` for an identifier of this employment itself. Only `self` identifiers take part in duplicate detection."
+          }
+        }
+      },
+      "ExternalIds": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "external-id": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ExternalId"
+            }
+          }
+        }
+      },
+      "EmploymentCreate": {
+        "type": "object",
+        "description": "Body for adding an employment. Do not send `put-code` (400, error 9024).",
+        "required": [
+          "organization"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "department-name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000,
+            "example": "Department of Chemistry"
+          },
+          "role-title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000,
+            "example": "Associate Professor"
+          },
+          "start-date": {
+            "$ref": "#/components/schemas/FuzzyDate"
+          },
+          "end-date": {
+            "$ref": "#/components/schemas/FuzzyDate"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/Organization"
+          },
+          "url": {
+            "$ref": "#/components/schemas/Url"
+          },
+          "external-ids": {
+            "$ref": "#/components/schemas/ExternalIds"
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/Visibility"
+          }
+        }
+      },
+      "EmploymentUpdate": {
+        "type": "object",
+        "description": "Body for updating an employment your client added. Send the whole item: fields you leave out are cleared, except visibility, which is kept.",
+        "required": [
+          "put-code",
+          "organization"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "put-code": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1234567,
+            "description": "Must equal the put-code in the URL (otherwise 400, error 9019)."
+          },
+          "department-name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "role-title": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "start-date": {
+            "$ref": "#/components/schemas/FuzzyDate"
+          },
+          "end-date": {
+            "$ref": "#/components/schemas/FuzzyDate"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/Organization"
+          },
+          "url": {
+            "$ref": "#/components/schemas/Url"
+          },
+          "external-ids": {
+            "$ref": "#/components/schemas/ExternalIds"
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/Visibility"
+          }
+        }
+      },
+      "Timestamp": {
+        "type": "object",
+        "readOnly": true,
+        "properties": {
+          "value": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Milliseconds since the Unix epoch."
+          }
+        }
+      },
+      "OrcidUri": {
+        "type": "object",
+        "properties": {
+          "uri": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "host": {
+            "type": "string"
+          }
+        }
+      },
+      "Source": {
+        "type": "object",
+        "readOnly": true,
+        "description": "Who added the item. For items your client adds, `source-client-id` is your client.",
+        "properties": {
+          "source-orcid": {
+            "$ref": "#/components/schemas/OrcidUri"
+          },
+          "source-client-id": {
+            "$ref": "#/components/schemas/OrcidUri"
+          },
+          "source-name": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            }
+          },
+          "assertion-origin-orcid": {
+            "$ref": "#/components/schemas/OrcidUri"
+          },
+          "assertion-origin-client-id": {
+            "$ref": "#/components/schemas/OrcidUri"
+          },
+          "assertion-origin-name": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Employment": {
+        "type": "object",
+        "properties": {
+          "created-date": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "last-modified-date": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "source": {
+            "$ref": "#/components/schemas/Source"
+          },
+          "put-code": {
+            "type": "integer",
+            "format": "int64",
+            "readOnly": true
+          },
+          "department-name": {
+            "type": "string",
+            "nullable": true
+          },
+          "role-title": {
+            "type": "string",
+            "nullable": true
+          },
+          "start-date": {
+            "$ref": "#/components/schemas/FuzzyDate"
+          },
+          "end-date": {
+            "$ref": "#/components/schemas/FuzzyDate"
+          },
+          "organization": {
+            "$ref": "#/components/schemas/Organization"
+          },
+          "url": {
+            "$ref": "#/components/schemas/Url"
+          },
+          "external-ids": {
+            "$ref": "#/components/schemas/ExternalIds"
+          },
+          "display-index": {
+            "type": "string",
+            "readOnly": true
+          },
+          "visibility": {
+            "$ref": "#/components/schemas/Visibility"
+          },
+          "path": {
+            "type": "string",
+            "readOnly": true,
+            "example": "/0000-0002-1825-0097/employment/1234567"
+          }
+        }
+      },
+      "EmploymentSummary": {
+        "description": "The summary form of an employment, as listed in `/employments`. Same fields as Employment.",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Employment"
+          }
+        ]
+      },
+      "Employments": {
+        "type": "object",
+        "properties": {
+          "last-modified-date": {
+            "$ref": "#/components/schemas/Timestamp"
+          },
+          "affiliation-group": {
+            "type": "array",
+            "description": "Employments grouped by shared external identifiers.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "last-modified-date": {
+                  "$ref": "#/components/schemas/Timestamp"
+                },
+                "external-ids": {
+                  "$ref": "#/components/schemas/ExternalIds"
+                },
+                "summaries": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "employment-summary": {
+                        "$ref": "#/components/schemas/EmploymentSummary"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "path": {
+            "type": "string",
+            "example": "/0000-0002-1825-0097/employments"
+          }
+        }
+      },
+      "OrcidError": {
+        "type": "object",
+        "properties": {
+          "response-code": {
+            "type": "integer",
+            "example": 400
+          },
+          "developer-message": {
+            "type": "string"
+          },
+          "user-message": {
+            "type": "string"
+          },
+          "error-code": {
+            "type": "integer",
+            "example": 9060
+          },
+          "more-info": {
+            "type": "string",
+            "example": "https://members.orcid.org/api/resources/troubleshooting"
+          }
+        }
+      },
+      "OAuthError": {
+        "type": "object",
+        "description": "Returned by the token check before the request reaches the API.",
+        "properties": {
+          "error": {
+            "type": "string",
+            "example": "invalid_token"
+          },
+          "error_description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
