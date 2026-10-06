@@ -312,6 +312,34 @@
                       ]
                     }
                   }
+                },
+                "invalid-date": {
+                  "summary": "Error: date that doesn't exist",
+                  "description": "30 February passes the format check but isn't a real date.",
+                  "value": {
+                    "start-date": {
+                      "year": {
+                        "value": "2023"
+                      },
+                      "month": {
+                        "value": "02"
+                      },
+                      "day": {
+                        "value": "30"
+                      }
+                    },
+                    "organization": {
+                      "name": "Boston University",
+                      "address": {
+                        "city": "Boston",
+                        "country": "US"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+                        "disambiguation-source": "ROR"
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -380,7 +408,6 @@
                   },
                   "invalid-date": {
                     "summary": "Date that doesn't exist (9049)",
-                    "description": "For example 30 February.",
                     "value": {
                       "response-code": 400,
                       "developer-message": "400 Bad request: invalid date: 2023-02-30",

@@ -279,6 +279,18 @@ If your client sends this body a second time, ORCID returns `409` (error 9021) i
 | `put-code` | Never send it when you create. ORCID assigns it. |
 | `external-ids` | Optional. A `self` identifier is what lets ORCID detect duplicates from your client. |
 
+## Partial and invalid dates
+
+Send a date as precisely as you know it:
+
+| You know | Send |
+| --- | --- |
+| The year | `{ "year": { "value": "2023" } }` |
+| The year and month | `{ "year": { "value": "2023" }, "month": { "value": "03" } }` |
+| The full date | `{ "year": { "value": "2023" }, "month": { "value": "03" }, "day": { "value": "15" } }` |
+
+A day without a month isn't allowed. ORCID also checks that a full date exists: `2023-02-30` returns `400` with error `9049`. To see that response, pick **Error: date that doesn't exist** in the example picker under the code panel.
+
 ## Errors
 
 Errors come back as JSON with an `error-code` that says which rule failed:
