@@ -76,8 +76,8 @@ First builds typically take 1–3 minutes. Subsequent builds are faster because 
 
 You've shipped something — now make it yours.
 
-{% content-ref url="../guides/custom-domains.md" %}
-[custom-domains.md](../guides/custom-domains.md)
+{% content-ref url="../guides/write-update-and-delete-works.md" %}
+[write-update-and-delete-works.md](../guides/write-update-and-delete-works.md)
 {% endcontent-ref %}
 
 {% content-ref url="../core-concepts/permissions.md" %}

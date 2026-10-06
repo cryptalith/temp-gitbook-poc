@@ -16,8 +16,8 @@
 
 ## Guides
 
-* [Guides](guides/guides.md)
-* [Custom domains](guides/custom-domains.md)
+* [Integration Guide](guides/integration-guide.md)
+* [Write, update, and delete works](guides/write-update-and-delete-works.md)
 * [Automations](guides/automations.md)
 
 ## Reference

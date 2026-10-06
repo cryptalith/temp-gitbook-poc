@@ -138,8 +138,8 @@ If you'd like to skip ahead and see a fully configured project, download our sam
 
 Now that you have a working project, you can check out:
 
-{% content-ref url="../guides/custom-domains.md" %}
-[custom-domains.md](../guides/custom-domains.md)
+{% content-ref url="../guides/write-update-and-delete-works.md" %}
+[write-update-and-delete-works.md](../guides/write-update-and-delete-works.md)
 {% endcontent-ref %}
 
 {% content-ref url="../guides/automations.md" %}
