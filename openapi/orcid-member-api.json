@@ -390,7 +390,7 @@
                     }
                   },
                   "missing-city": {
-                    "summary": "missing city",
+                    "summary": "Missing city (9060)",
                     "value": {
                       "response-code": 400,
                       "developer-message": "City and country are required for education/employment.",
@@ -400,7 +400,7 @@
                     }
                   },
                   "put-code-on-create": {
-                    "summary": "put-code sent on create",
+                    "summary": "Put-code sent on create (9024)",
                     "value": {
                       "response-code": 400,
                       "developer-message": "400 Bad Request: Put-code is included when not expected. When posting new activities, the put code should be omitted.",
@@ -410,7 +410,7 @@
                     }
                   },
                   "unknown-organization": {
-                    "summary": "organization not in ORCID's registry",
+                    "summary": "Organization not in ORCID's registry (9045)",
                     "value": {
                       "response-code": 400,
                       "developer-message": "400 Bad request: disambiguated-organization must be present and valid",
@@ -420,7 +420,7 @@
                     }
                   },
                   "end-before-start": {
-                    "summary": "end date before start date",
+                    "summary": "End date before start date (9055)",
                     "value": {
                       "response-code": 400,
                       "developer-message": "400 Bad Request: End date must come after start date.",
@@ -523,7 +523,7 @@
                 },
                 "examples": {
                   "duplicate": {
-                    "summary": "duplicate (same external ID twice)",
+                    "summary": "Duplicate (same external ID twice) (9021)",
                     "value": {
                       "response-code": 409,
                       "developer-message": "409 Conflict: You have already added this activity (matched by external identifiers), please see element with put-code 1234567. If you are trying to edit the item, please use PUT instead of POST.",
