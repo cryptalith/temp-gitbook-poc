@@ -1,0 +1,47 @@
+$schema: https://api.gitbook.com/gitbook-docs.yaml
+site:
+  title: ORCID Docs
+  structure:
+    - type: section
+      key: section-1
+      title: ORCID Docs
+      path: orcid-docs
+      default: true
+      children:
+        - type: space
+          key: space-1
+          title: Untitled
+          path: untitled
+          default: true
+          content:
+            directory: ./orcid-docs/untitled
+    - type: section
+      key: section-2
+      title: Product Docs
+      path: product-docs
+      description: This is a test
+      icon: paintbrush
+      children:
+        - type: space
+          key: space-2
+          title: Product Docs
+          path: product-docs
+          default: true
+          draft: true
+          content:
+            directory: ./product-docs
+    - type: section
+      key: section-3
+      title: API Reference
+      path: api-reference
+      description: "This is a test "
+      icon: dev
+      children:
+        - type: space
+          key: space-3
+          title: API Reference
+          path: api-reference
+          default: true
+          draft: true
+          content:
+            directory: ./api-reference
