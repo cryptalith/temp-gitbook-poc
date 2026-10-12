@@ -1226,6 +1226,222 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ActivitiesSummary"
+                },
+                "examples": {
+                  "read-activities": {
+                    "summary": "Read-activities the recipe",
+                    "value": {
+                      "last-modified-date": {
+                        "value": 1700000000000
+                      },
+                      "distinctions": {
+                        "last-modified-date": null,
+                        "affiliation-group": [],
+                        "path": "/0000-0002-1825-0097/distinctions"
+                      },
+                      "educations": {
+                        "last-modified-date": {
+                          "value": 1700000000000
+                        },
+                        "affiliation-group": [
+                          {
+                            "last-modified-date": {
+                              "value": 1700000000000
+                            },
+                            "external-ids": {
+                              "external-id": [
+                                {
+                                  "external-id-type": "proposal_id",
+                                  "external-id-value": "external-identifier-value2",
+                                  "external-id-normalized": {
+                                    "value": "external-identifier-value2",
+                                    "transient": true
+                                  },
+                                  "external-id-normalized-error": null,
+                                  "external-id-url": {
+                                    "value": "http://tempuri.org/2"
+                                  },
+                                  "external-id-relationship": "self"
+                                },
+                                {
+                                  "external-id-type": "grant_number",
+                                  "external-id-value": "external-identifier-value",
+                                  "external-id-normalized": {
+                                    "value": "external-identifier-value",
+                                    "transient": true
+                                  },
+                                  "external-id-normalized-error": null,
+                                  "external-id-url": {
+                                    "value": "http://tempuri.org"
+                                  },
+                                  "external-id-relationship": "self"
+                                }
+                              ]
+                            },
+                            "summaries": [
+                              {
+                                "education-summary": {
+                                  "created-date": {
+                                    "value": 1700000000000
+                                  },
+                                  "last-modified-date": {
+                                    "value": 1700000000000
+                                  },
+                                  "source": {
+                                    "source-orcid": null,
+                                    "source-client-id": {
+                                      "uri": "https://sandbox.orcid.org/client/APP-XXXXXXXXXXXXXXXX",
+                                      "path": "APP-XXXXXXXXXXXXXXXX",
+                                      "host": "sandbox.orcid.org"
+                                    },
+                                    "source-name": {
+                                      "value": "Example Member App"
+                                    },
+                                    "assertion-origin-orcid": null,
+                                    "assertion-origin-client-id": null,
+                                    "assertion-origin-name": null
+                                  },
+                                  "put-code": 1234567,
+                                  "department-name": "School of Geography and the Environment",
+                                  "role-title": "Degree awarded",
+                                  "start-date": {
+                                    "year": {
+                                      "value": "2015"
+                                    },
+                                    "month": {
+                                      "value": "02"
+                                    },
+                                    "day": {
+                                      "value": "02"
+                                    }
+                                  },
+                                  "end-date": {
+                                    "year": {
+                                      "value": "2024"
+                                    },
+                                    "month": {
+                                      "value": "06"
+                                    },
+                                    "day": {
+                                      "value": "30"
+                                    }
+                                  },
+                                  "organization": {
+                                    "name": "University of Oxford",
+                                    "address": {
+                                      "city": "Oxford",
+                                      "region": "Oxfordshire",
+                                      "country": "GB"
+                                    },
+                                    "disambiguated-organization": {
+                                      "disambiguated-organization-identifier": "https://ror.org/052gg0110",
+                                      "disambiguation-source": "ROR"
+                                    }
+                                  },
+                                  "url": {
+                                    "value": "http://tempuri.org"
+                                  },
+                                  "external-ids": {
+                                    "external-id": [
+                                      {
+                                        "external-id-type": "grant_number",
+                                        "external-id-value": "external-identifier-value",
+                                        "external-id-normalized": {
+                                          "value": "external-identifier-value",
+                                          "transient": true
+                                        },
+                                        "external-id-normalized-error": null,
+                                        "external-id-url": {
+                                          "value": "http://tempuri.org"
+                                        },
+                                        "external-id-relationship": "self"
+                                      },
+                                      {
+                                        "external-id-type": "proposal_id",
+                                        "external-id-value": "external-identifier-value2",
+                                        "external-id-normalized": {
+                                          "value": "external-identifier-value2",
+                                          "transient": true
+                                        },
+                                        "external-id-normalized-error": null,
+                                        "external-id-url": {
+                                          "value": "http://tempuri.org/2"
+                                        },
+                                        "external-id-relationship": "self"
+                                      },
+                                      {
+                                        "external-id-type": "grant_number",
+                                        "external-id-value": "external-identifier-value2",
+                                        "external-id-normalized": {
+                                          "value": "external-identifier-value2",
+                                          "transient": true
+                                        },
+                                        "external-id-normalized-error": null,
+                                        "external-id-url": {
+                                          "value": "http://tempuri.org/2"
+                                        },
+                                        "external-id-relationship": "part-of"
+                                      }
+                                    ]
+                                  },
+                                  "display-index": "1",
+                                  "visibility": "public",
+                                  "path": "/0000-0002-1825-0097/education/1234567"
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "path": "/0000-0002-1825-0097/educations"
+                      },
+                      "employments": {
+                        "last-modified-date": null,
+                        "affiliation-group": [],
+                        "path": "/0000-0002-1825-0097/employments"
+                      },
+                      "fundings": {
+                        "last-modified-date": null,
+                        "group": [],
+                        "path": "/0000-0002-1825-0097/fundings"
+                      },
+                      "invited-positions": {
+                        "last-modified-date": null,
+                        "affiliation-group": [],
+                        "path": "/0000-0002-1825-0097/invited-positions"
+                      },
+                      "memberships": {
+                        "last-modified-date": null,
+                        "affiliation-group": [],
+                        "path": "/0000-0002-1825-0097/memberships"
+                      },
+                      "peer-reviews": {
+                        "last-modified-date": null,
+                        "group": [],
+                        "path": "/0000-0002-1825-0097/peer-reviews"
+                      },
+                      "qualifications": {
+                        "last-modified-date": null,
+                        "affiliation-group": [],
+                        "path": "/0000-0002-1825-0097/qualifications"
+                      },
+                      "research-resources": {
+                        "last-modified-date": null,
+                        "group": [],
+                        "path": "/0000-0002-1825-0097/research-resources"
+                      },
+                      "services": {
+                        "last-modified-date": null,
+                        "affiliation-group": [],
+                        "path": "/0000-0002-1825-0097/services"
+                      },
+                      "works": {
+                        "last-modified-date": null,
+                        "group": [],
+                        "path": "/0000-0002-1825-0097/works"
+                      },
+                      "path": "/0000-0002-1825-0097/activities"
+                    }
+                  }
                 }
               }
             },
@@ -2850,6 +3066,80 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Education"
+              },
+              "examples": {
+                "add-education": {
+                  "summary": "Add-education the recipe",
+                  "value": {
+                    "department-name": "School of Geography and the Environment",
+                    "role-title": "Degree awarded",
+                    "start-date": {
+                      "year": {
+                        "value": "2015"
+                      },
+                      "month": {
+                        "value": "02"
+                      },
+                      "day": {
+                        "value": "02"
+                      }
+                    },
+                    "end-date": {
+                      "year": {
+                        "value": "2023"
+                      },
+                      "month": {
+                        "value": "01"
+                      },
+                      "day": {
+                        "value": "02"
+                      }
+                    },
+                    "organization": {
+                      "name": "University of Oxford",
+                      "address": {
+                        "city": "Oxford",
+                        "region": "Oxfordshire",
+                        "country": "GB"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/052gg0110",
+                        "disambiguation-source": "ROR"
+                      }
+                    },
+                    "url": {
+                      "value": "http://tempuri.org"
+                    },
+                    "external-ids": {
+                      "external-id": [
+                        {
+                          "external-id-type": "grant_number",
+                          "external-id-value": "external-identifier-value",
+                          "external-id-url": {
+                            "value": "http://tempuri.org"
+                          },
+                          "external-id-relationship": "self"
+                        },
+                        {
+                          "external-id-type": "proposal-id",
+                          "external-id-value": "external-identifier-value2",
+                          "external-id-url": {
+                            "value": "http://tempuri.org/2"
+                          },
+                          "external-id-relationship": "self"
+                        },
+                        {
+                          "external-id-type": "grant_number",
+                          "external-id-value": "external-identifier-value2",
+                          "external-id-url": {
+                            "value": "http://tempuri.org/2"
+                          },
+                          "external-id-relationship": "part-of"
+                        }
+                      ]
+                    }
+                  }
+                }
               }
             }
           }
@@ -2862,11 +3152,28 @@
                 "description": "URI of the new item",
                 "schema": {
                   "type": "string",
-                  "format": "uri"
+                  "format": "uri",
+                  "example": "https://api.sandbox.orcid.org/v3.0/0000-0002-1825-0097/education/1234567"
                 },
                 "style": "simple"
               }
-            }
+            },
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "maxLength": 0,
+                  "description": "Empty body."
+                },
+                "examples": {
+                  "add-education": {
+                    "summary": "Add-education the recipe: empty body, put-code in Location",
+                    "value": ""
+                  }
+                }
+              }
+            },
+            "x-hideSample": true
           },
           "400": {
             "content": {
@@ -3373,6 +3680,119 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/Education"
+              },
+              "examples": {
+                "update-education-end-date": {
+                  "summary": "Update-education-end-date the recipe",
+                  "value": {
+                    "created-date": {
+                      "value": 1700000000000
+                    },
+                    "last-modified-date": {
+                      "value": 1700000000000
+                    },
+                    "source": {
+                      "source-orcid": null,
+                      "source-client-id": {
+                        "uri": "https://sandbox.orcid.org/client/APP-XXXXXXXXXXXXXXXX",
+                        "path": "APP-XXXXXXXXXXXXXXXX",
+                        "host": "sandbox.orcid.org"
+                      },
+                      "source-name": {
+                        "value": "Example Member App"
+                      },
+                      "assertion-origin-orcid": null,
+                      "assertion-origin-client-id": null,
+                      "assertion-origin-name": null
+                    },
+                    "put-code": 1234567,
+                    "path": "/0000-0002-1825-0097/education/1234567",
+                    "department-name": "School of Geography and the Environment",
+                    "role-title": "Degree awarded",
+                    "start-date": {
+                      "year": {
+                        "value": "2015"
+                      },
+                      "month": {
+                        "value": "02"
+                      },
+                      "day": {
+                        "value": "02"
+                      }
+                    },
+                    "end-date": {
+                      "year": {
+                        "value": "2024"
+                      },
+                      "month": {
+                        "value": "06"
+                      },
+                      "day": {
+                        "value": "30"
+                      }
+                    },
+                    "organization": {
+                      "name": "University of Oxford",
+                      "address": {
+                        "city": "Oxford",
+                        "region": "Oxfordshire",
+                        "country": "GB"
+                      },
+                      "disambiguated-organization": {
+                        "disambiguated-organization-identifier": "https://ror.org/052gg0110",
+                        "disambiguation-source": "ROR"
+                      }
+                    },
+                    "url": {
+                      "value": "http://tempuri.org"
+                    },
+                    "external-ids": {
+                      "external-id": [
+                        {
+                          "external-id-type": "grant_number",
+                          "external-id-value": "external-identifier-value",
+                          "external-id-normalized": {
+                            "value": "external-identifier-value",
+                            "transient": true
+                          },
+                          "external-id-normalized-error": null,
+                          "external-id-url": {
+                            "value": "http://tempuri.org"
+                          },
+                          "external-id-relationship": "self"
+                        },
+                        {
+                          "external-id-type": "proposal_id",
+                          "external-id-value": "external-identifier-value2",
+                          "external-id-normalized": {
+                            "value": "external-identifier-value2",
+                            "transient": true
+                          },
+                          "external-id-normalized-error": null,
+                          "external-id-url": {
+                            "value": "http://tempuri.org/2"
+                          },
+                          "external-id-relationship": "self"
+                        },
+                        {
+                          "external-id-type": "grant_number",
+                          "external-id-value": "external-identifier-value2",
+                          "external-id-normalized": {
+                            "value": "external-identifier-value2",
+                            "transient": true
+                          },
+                          "external-id-normalized-error": null,
+                          "external-id-url": {
+                            "value": "http://tempuri.org/2"
+                          },
+                          "external-id-relationship": "part-of"
+                        }
+                      ]
+                    },
+                    "display-index": "1",
+                    "visibility": "public"
+                  }
+                }
               }
             }
           }
@@ -3383,6 +3803,119 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Education"
+                },
+                "examples": {
+                  "update-education-end-date": {
+                    "summary": "Update-education-end-date the recipe",
+                    "value": {
+                      "created-date": {
+                        "value": 1700000000000
+                      },
+                      "last-modified-date": {
+                        "value": 1700000000000
+                      },
+                      "source": {
+                        "source-orcid": null,
+                        "source-client-id": {
+                          "uri": "https://sandbox.orcid.org/client/APP-XXXXXXXXXXXXXXXX",
+                          "path": "APP-XXXXXXXXXXXXXXXX",
+                          "host": "sandbox.orcid.org"
+                        },
+                        "source-name": {
+                          "value": "Example Member App"
+                        },
+                        "assertion-origin-orcid": null,
+                        "assertion-origin-client-id": null,
+                        "assertion-origin-name": null
+                      },
+                      "put-code": 1234567,
+                      "path": null,
+                      "department-name": "School of Geography and the Environment",
+                      "role-title": "Degree awarded",
+                      "start-date": {
+                        "year": {
+                          "value": "2015"
+                        },
+                        "month": {
+                          "value": "02"
+                        },
+                        "day": {
+                          "value": "02"
+                        }
+                      },
+                      "end-date": {
+                        "year": {
+                          "value": "2024"
+                        },
+                        "month": {
+                          "value": "06"
+                        },
+                        "day": {
+                          "value": "30"
+                        }
+                      },
+                      "organization": {
+                        "name": "University of Oxford",
+                        "address": {
+                          "city": "Oxford",
+                          "region": "Oxfordshire",
+                          "country": "GB"
+                        },
+                        "disambiguated-organization": {
+                          "disambiguated-organization-identifier": "https://ror.org/052gg0110",
+                          "disambiguation-source": "ROR"
+                        }
+                      },
+                      "url": {
+                        "value": "http://tempuri.org"
+                      },
+                      "external-ids": {
+                        "external-id": [
+                          {
+                            "external-id-type": "grant_number",
+                            "external-id-value": "external-identifier-value",
+                            "external-id-normalized": {
+                              "value": "external-identifier-value",
+                              "transient": true
+                            },
+                            "external-id-normalized-error": null,
+                            "external-id-url": {
+                              "value": "http://tempuri.org"
+                            },
+                            "external-id-relationship": "self"
+                          },
+                          {
+                            "external-id-type": "proposal_id",
+                            "external-id-value": "external-identifier-value2",
+                            "external-id-normalized": {
+                              "value": "external-identifier-value2",
+                              "transient": true
+                            },
+                            "external-id-normalized-error": null,
+                            "external-id-url": {
+                              "value": "http://tempuri.org/2"
+                            },
+                            "external-id-relationship": "self"
+                          },
+                          {
+                            "external-id-type": "grant_number",
+                            "external-id-value": "external-identifier-value2",
+                            "external-id-normalized": {
+                              "value": "external-identifier-value2",
+                              "transient": true
+                            },
+                            "external-id-normalized-error": null,
+                            "external-id-url": {
+                              "value": "http://tempuri.org/2"
+                            },
+                            "external-id-relationship": "part-of"
+                          }
+                        ]
+                      },
+                      "display-index": "1",
+                      "visibility": "public"
+                    }
+                  }
                 }
               }
             },
