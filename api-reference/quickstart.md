@@ -5,7 +5,7 @@ icon: rocket
 
 # Get started with the ORCID Member API
 
-The ORCID Member API lets ORCID member organizations write to researchers' ORCID records, and read what researchers have shared with them, with each researcher's permission. These docs cover the **employment** section of the v3.0 API.
+The ORCID Member API lets ORCID member organizations write to researchers' ORCID records, and read what researchers have shared with them, with each researcher's permission. These docs cover the v3.0 Member and Public APIs. The guides walk through employments, works, reading records and search, and the reference describes every operation.
 
 ## Sandbox and production
 
@@ -44,5 +44,11 @@ The scopes for employment are:
 ## Your first call
 
 Add an employment to your sandbox test researcher's record. [Add an employment](add-employment.md) walks through the whole call, from asking for permission to reading the put-code from the response, with examples you can send from the page.
+
+Then try the other guides:
+
+* [Read a record](read-a-record.md), the public parts or what the researcher shared with you.
+* [Add and update works](works.md), one at a time or in bulk.
+* [Search the registry](search.md).
 
 To change or remove that employment later, keep its put-code. You need it to update or delete the item; both calls are in the Reference section.
