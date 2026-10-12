@@ -6,7 +6,7 @@
 * [Add and update works](works.md)
 * [Search the registry](search.md)
 
-## Reference
+## Member API reference
 
 * ```yaml
   type: builtin:openapi

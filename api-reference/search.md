@@ -9,7 +9,7 @@ icon: magnifying-glass
 Search finds records by name, identifier, affiliation and more, with [Solr query syntax](https://solr.apache.org/guide/solr/latest/query-guide/standard-query-parser.html). It works on the Public API without a token, and on the Member API with a `/read-public` token.
 
 {% hint style="info" %}
-Everything on this page uses the **sandbox**: `pub.sandbox.orcid.org` and `api.sandbox.orcid.org`. In production, use the same paths on `pub.orcid.org` and `api.orcid.org`.
+Everything on this page uses the **sandbox**: `pub.sandbox.orcid.org`, or `api.sandbox.orcid.org` with a member client. In production, use the same paths on `pub.orcid.org` and `api.orcid.org`.
 {% endhint %}
 
 ## Search

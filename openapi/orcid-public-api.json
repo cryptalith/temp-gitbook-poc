@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "description": "The ORCID Public API lets anyone read the public data on ORCID records and search the registry.\n\nA token is optional. Requests without one are accepted up to a daily quota per IP address; requests with a `/read-public` token, from the client credentials grant at `https://sandbox.orcid.org/oauth/token` (in production, `https://orcid.org/oauth/token`), are not held to that quota.\n\nSend `Accept: application/json` on every request. Without it the API answers in XML. These pages show JSON only; every operation also answers in XML (`application/vnd.orcid+xml`).\n\nEvery operation and every error on these pages was exercised against a running Registry by the ORCID API contract tests, and the examples are the requests and responses those tests recorded.",
+    "description": "The ORCID Public API lets anyone read the public data on ORCID records and search the registry.\n\nA token is optional. Requests without one are accepted up to a daily quota per IP address; requests with a `/read-public` token, from the client credentials grant at `https://sandbox.orcid.org/oauth/token` (in production, `https://orcid.org/oauth/token`), are not held to that quota.\n\nSend `Accept: application/json` on every request. Without it the API answers in XML. These pages show JSON only; every operation also answers in XML (`application/vnd.orcid+xml`).\n\nEvery operation on these pages, and each class of error, was exercised against a running Registry by the ORCID API contract tests, and the examples are the requests and responses those tests recorded.",
     "license": {
       "name": "MIT",
       "url": "https://github.com/ORCID/ORCID-Source/blob/main/LICENSE"
@@ -176,7 +176,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -189,7 +189,7 @@
             "description": "No record has this iD, or no item has this put-code (error 9016)."
           }
         },
-        "summary": "Fetch client details",
+        "summary": "Fetch a client's details",
         "tags": [
           "Clients"
         ]
@@ -270,7 +270,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           }
         },
         "summary": "Search records",
@@ -365,7 +365,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           }
         },
         "summary": "Search records",
@@ -989,7 +989,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           }
         },
         "summary": "Fetch the external identifier types",
@@ -1076,7 +1076,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           }
         },
         "summary": "Search records",
@@ -1173,7 +1173,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -1193,10 +1193,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch record details",
+        "summary": "Fetch the record",
         "tags": [
           "Record"
         ]
@@ -1255,7 +1255,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -1275,10 +1275,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch all Activities",
+        "summary": "Fetch all activities",
         "tags": [
           "Activities"
         ]
@@ -1337,7 +1337,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -1357,7 +1357,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch all addresses",
@@ -1428,7 +1428,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -1458,7 +1458,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch an address",
@@ -1520,7 +1520,17 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                }
+              }
+            },
+            "description": "The item is not public (error 9039)."
           },
           "404": {
             "content": {
@@ -1540,10 +1550,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Get biography details",
+        "summary": "Fetch the biography",
         "tags": [
           "Biography"
         ]
@@ -1611,7 +1621,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -1641,10 +1651,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Distinction summary",
+        "summary": "Fetch a distinction summary",
         "tags": [
           "Distinction"
         ]
@@ -1712,7 +1722,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -1742,10 +1752,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Distinction",
+        "summary": "Fetch a distinction",
         "tags": [
           "Distinction"
         ]
@@ -1804,17 +1814,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrcidError"
-                }
-              }
-            },
-            "description": "No record has this iD, or no item has this put-code (error 9016)."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "409": {
             "content": {
@@ -1824,7 +1824,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch all distinctions",
@@ -1896,7 +1896,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -1926,10 +1926,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Education Summary",
+        "summary": "Fetch an education summary",
         "tags": [
           "Education"
         ]
@@ -1998,7 +1998,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -2028,10 +2028,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Education",
+        "summary": "Fetch an education",
         "tags": [
           "Education"
         ]
@@ -2090,7 +2090,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -2110,7 +2110,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch all educations",
@@ -2172,7 +2172,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -2192,10 +2192,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch all emails for an ORCID ID",
+        "summary": "Fetch all emails",
         "tags": [
           "Emails"
         ]
@@ -2264,7 +2264,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -2294,10 +2294,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Employment Summary",
+        "summary": "Fetch an employment summary",
         "tags": [
           "Employment"
         ]
@@ -2366,7 +2366,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -2396,10 +2396,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Employment",
+        "summary": "Fetch an employment",
         "tags": [
           "Employment"
         ]
@@ -2458,7 +2458,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -2478,7 +2478,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch all employments",
@@ -2540,7 +2540,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -2560,10 +2560,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch external identifiers",
+        "summary": "Fetch all person external identifiers",
         "tags": [
           "External identifiers"
         ]
@@ -2631,7 +2631,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -2661,10 +2661,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch external identifier",
+        "summary": "Fetch a person external identifier",
         "tags": [
           "External identifiers"
         ]
@@ -2733,7 +2733,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -2763,10 +2763,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch a Funding Summary",
+        "summary": "Fetch a funding summary",
         "tags": [
           "Fundings"
         ]
@@ -2835,7 +2835,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -2865,10 +2865,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch a Funding",
+        "summary": "Fetch a funding",
         "tags": [
           "Fundings"
         ]
@@ -2927,7 +2927,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -2947,7 +2947,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch all fundings",
@@ -3018,7 +3018,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -3048,10 +3048,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an InvitedPosition summary",
+        "summary": "Fetch an invited position summary",
         "tags": [
           "Invited position"
         ]
@@ -3119,7 +3119,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -3149,10 +3149,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an InvitedPosition",
+        "summary": "Fetch an invited position",
         "tags": [
           "Invited position"
         ]
@@ -3211,17 +3211,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrcidError"
-                }
-              }
-            },
-            "description": "No record has this iD, or no item has this put-code (error 9016)."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "409": {
             "content": {
@@ -3231,10 +3221,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch all invitedPositions",
+        "summary": "Fetch all invited positions",
         "tags": [
           "Invited position"
         ]
@@ -3293,7 +3283,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -3313,10 +3303,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch keywords",
+        "summary": "Fetch all keywords",
         "tags": [
           "Keywords"
         ]
@@ -3384,7 +3374,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -3414,10 +3404,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch keyword",
+        "summary": "Fetch a keyword",
         "tags": [
           "Keywords"
         ]
@@ -3485,7 +3475,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -3515,10 +3505,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Membership summary",
+        "summary": "Fetch a membership summary",
         "tags": [
           "Membership"
         ]
@@ -3586,7 +3576,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -3616,10 +3606,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Membership",
+        "summary": "Fetch a membership",
         "tags": [
           "Membership"
         ]
@@ -3678,17 +3668,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrcidError"
-                }
-              }
-            },
-            "description": "No record has this iD, or no item has this put-code (error 9016)."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "409": {
             "content": {
@@ -3698,7 +3678,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch all memberships",
@@ -3760,7 +3740,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -3780,10 +3760,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch Other names",
+        "summary": "Fetch all other names",
         "tags": [
           "Other names"
         ]
@@ -3851,7 +3831,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -3881,10 +3861,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch Other name",
+        "summary": "Fetch an other name",
         "tags": [
           "Other names"
         ]
@@ -3953,7 +3933,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -3983,10 +3963,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch a Peer Review Summary",
+        "summary": "Fetch a peer review summary",
         "tags": [
           "Peer reviews"
         ]
@@ -4055,7 +4035,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -4085,10 +4065,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch a Peer Review",
+        "summary": "Fetch a peer review",
         "tags": [
           "Peer reviews"
         ]
@@ -4147,7 +4127,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -4167,7 +4147,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch all peer reviews",
@@ -4229,7 +4209,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -4249,10 +4229,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch person details",
+        "summary": "Fetch the person section",
         "tags": [
           "Person"
         ]
@@ -4311,7 +4291,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -4331,10 +4311,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch personal details for an ORCID ID",
+        "summary": "Fetch personal details",
         "tags": [
           "Personal details"
         ]
@@ -4402,7 +4382,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -4432,10 +4412,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Qualification summary",
+        "summary": "Fetch a qualification summary",
         "tags": [
           "Qualification"
         ]
@@ -4503,7 +4483,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -4533,10 +4513,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Qualification",
+        "summary": "Fetch a qualification",
         "tags": [
           "Qualification"
         ]
@@ -4595,17 +4575,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrcidError"
-                }
-              }
-            },
-            "description": "No record has this iD, or no item has this put-code (error 9016)."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "409": {
             "content": {
@@ -4615,7 +4585,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch all qualifications",
@@ -5145,7 +5115,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -5177,10 +5147,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch record details2",
+        "summary": "Fetch the record at its /record path",
         "tags": [
           "Record"
         ]
@@ -5248,7 +5218,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -5278,10 +5248,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch a Research Resource summary",
+        "summary": "Fetch a research resource summary",
         "tags": [
           "Research resources"
         ]
@@ -5349,7 +5319,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -5379,10 +5349,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch a Research Resource",
+        "summary": "Fetch a research resource",
         "tags": [
           "Research resources"
         ]
@@ -5441,17 +5411,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrcidError"
-                }
-              }
-            },
-            "description": "No record has this iD, or no item has this put-code (error 9016)."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "409": {
             "content": {
@@ -5461,10 +5421,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch all Research Resources",
+        "summary": "Fetch all research resources",
         "tags": [
           "Research resources"
         ]
@@ -5523,7 +5483,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -5543,10 +5503,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch all researcher urls for an ORCID ID",
+        "summary": "Fetch all researcher URLs",
         "tags": [
           "Researcher URLs"
         ]
@@ -5614,7 +5574,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -5644,10 +5604,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch one researcher url for an ORCID ID",
+        "summary": "Fetch a researcher URL",
         "tags": [
           "Researcher URLs"
         ]
@@ -5715,7 +5675,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -5745,10 +5705,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Service summary",
+        "summary": "Fetch a service summary",
         "tags": [
           "Service"
         ]
@@ -5816,7 +5776,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -5846,10 +5806,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch an Service",
+        "summary": "Fetch a service",
         "tags": [
           "Service"
         ]
@@ -5908,17 +5868,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
-          },
-          "404": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrcidError"
-                }
-              }
-            },
-            "description": "No record has this iD, or no item has this put-code (error 9016)."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "409": {
             "content": {
@@ -5928,7 +5878,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch all services",
@@ -6000,7 +5950,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -6030,10 +5980,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch a Work Summary",
+        "summary": "Fetch a work summary",
         "tags": [
           "Works"
         ]
@@ -6139,12 +6089,13 @@
                     "value": {
                       "error": "invalid_token",
                       "error_description": "Invalid access token: <ACCESS_TOKEN>"
-                    }
+                    },
+                    "description": "Nothing else is wrong with the request. The token is unknown, expired or revoked."
                   }
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "403": {
             "content": {
@@ -6174,10 +6125,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch a Work",
+        "summary": "Fetch a work",
         "tags": [
           "Works"
         ]
@@ -6236,7 +6187,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -6256,7 +6207,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
         "summary": "Fetch all works",
@@ -6336,7 +6287,7 @@
                 }
               }
             },
-            "description": "The token is invalid, expired or revoked. The token is optional, but a bad one is refused."
+            "description": "The token is unknown, expired or revoked. The token is optional, but a bad one is refused."
           },
           "404": {
             "content": {
@@ -6356,10 +6307,10 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018) or deactivated (9044)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036)."
           }
         },
-        "summary": "Fetch specified works",
+        "summary": "Fetch works by put-code",
         "tags": [
           "Works"
         ]
@@ -6905,6 +6856,7 @@
         "properties": {
           "contributor-role": {
             "type": "string",
+            "description": "An original role or a CRediT role URI; anything else is refused (error 9058). The XSD says the original roles will be removed in a future version.",
             "enum": [
               "author",
               "assignee",
@@ -6917,6 +6869,20 @@
               "principal-investigator",
               "postdoctoral-researcher",
               "support-staff",
+              "http://credit.niso.org/contributor-roles/conceptualization/",
+              "http://credit.niso.org/contributor-roles/data-curation/",
+              "http://credit.niso.org/contributor-roles/formal-analysis/",
+              "http://credit.niso.org/contributor-roles/funding-acquisition/",
+              "http://credit.niso.org/contributor-roles/investigation/",
+              "http://credit.niso.org/contributor-roles/methodology/",
+              "http://credit.niso.org/contributor-roles/project-administration/",
+              "http://credit.niso.org/contributor-roles/resources/",
+              "http://credit.niso.org/contributor-roles/software/",
+              "http://credit.niso.org/contributor-roles/supervision/",
+              "http://credit.niso.org/contributor-roles/validation/",
+              "http://credit.niso.org/contributor-roles/visualization/",
+              "http://credit.niso.org/contributor-roles/writing-original-draft/",
+              "http://credit.niso.org/contributor-roles/writing-review-editing/",
               null
             ],
             "nullable": true,
@@ -8363,18 +8329,26 @@
         "properties": {
           "contributor-role": {
             "type": "string",
+            "description": "A funding role or a CRediT role URI; anything else is refused (error 9058).",
             "enum": [
-              "author",
-              "assignee",
-              "editor",
-              "chair-or-translator",
-              "co-investigator",
-              "co-inventor",
-              "graduate-student",
-              "other-inventor",
-              "principal-investigator",
-              "postdoctoral-researcher",
-              "support-staff",
+              "lead",
+              "co-lead",
+              "supported-by",
+              "other-contribution",
+              "http://credit.niso.org/contributor-roles/conceptualization/",
+              "http://credit.niso.org/contributor-roles/data-curation/",
+              "http://credit.niso.org/contributor-roles/formal-analysis/",
+              "http://credit.niso.org/contributor-roles/funding-acquisition/",
+              "http://credit.niso.org/contributor-roles/investigation/",
+              "http://credit.niso.org/contributor-roles/methodology/",
+              "http://credit.niso.org/contributor-roles/project-administration/",
+              "http://credit.niso.org/contributor-roles/resources/",
+              "http://credit.niso.org/contributor-roles/software/",
+              "http://credit.niso.org/contributor-roles/supervision/",
+              "http://credit.niso.org/contributor-roles/validation/",
+              "http://credit.niso.org/contributor-roles/visualization/",
+              "http://credit.niso.org/contributor-roles/writing-original-draft/",
+              "http://credit.niso.org/contributor-roles/writing-review-editing/",
               null
             ],
             "nullable": true,
@@ -8623,7 +8597,7 @@
           },
           "creation-method": {
             "type": "string",
-            "description": "CreationMethodV2_0",
+            "description": "JSON carries the constant name (DIRECT); XML carries the XSD value (Direct).",
             "enum": [
               "API",
               "DIRECT",
@@ -9302,12 +9276,12 @@
         "properties": {
           "error": {
             "type": "string",
-            "description": "`invalid_token` when the token is not valid, `forbidden` when none was sent.",
+            "description": "`invalid_token` when the token is unknown, expired or revoked.",
             "nullable": true
           },
           "error_description": {
             "type": "string",
-            "description": "A sentence for developers, ending with the token that was sent, if any.",
+            "description": "A sentence for developers.",
             "nullable": true
           }
         },
@@ -10257,6 +10231,7 @@
           },
           "external-id-relationship": {
             "type": "string",
+            "description": "Only self is accepted on writes (error 9020).",
             "enum": [
               "part-of",
               "self",

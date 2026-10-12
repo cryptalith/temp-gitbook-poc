@@ -101,8 +101,14 @@ A token from the client credentials grant with the `/read-public` scope also wor
 
 | HTTP | `error-code` | What happened |
 | --- | --- | --- |
-| 401 | | The token is invalid, expired or revoked. The body is `{"error": "invalid_token", ...}`. |
-| 401 | 9017 | The token was granted for a different ORCID iD. |
-| 404 | 9016 | No record has this iD. |
+| 401 | `invalid_token` | The token is unknown, expired or revoked. |
+| 401 | 9017 | Member API: the token was granted for a different ORCID iD. With a researcher's token, an iD that doesn't exist answers this too. |
+| 403 | `forbidden` | Member API: no token was sent, or the token belongs to a public client. |
+| 403 | 9038 | Member API: the item isn't public and the token is a client-credentials `/read-public` one. |
+| 403 | 9013 | Member API: the item is private and another client added it. |
+| 403 | 9039 | Public API: the item you asked for by put-code isn't public. |
+| 404 | 9016 | No record has this iD (Public API, or a client-credentials token), or no item has this put-code. |
 | 409 | 9018, 9044 | The record is locked or deactivated. |
-| 301 | | The record was deprecated. `Location` is the same URL with the primary record's iD. |
+| 301 | 9007 | The record was deprecated. `Location` is the same URL with the primary record's iD. |
+
+The token errors (`invalid_token`, `forbidden`) are always JSON: `{"error": ..., "error_description": ...}`. The others are ORCID errors with `response-code`, `developer-message`, `user-message`, `error-code` and `more-info`.

@@ -384,7 +384,7 @@ If your client sends this body a second time, ORCID returns `409` (error 9021) i
 | `url`, `external-id-url` | Objects: `{ "value": "https://..." }`. The API also takes a bare string, but it always answers with the object. |
 | `visibility` | On a claimed record, ORCID applies the researcher's own default visibility and ignores the value you send. |
 | `put-code` | Never send it when you create. ORCID assigns it. |
-| `external-ids` | Optional. A `self` identifier is what lets ORCID detect duplicates from your client. |
+| `external-ids` | Optional. A `self` identifier is what lets ORCID detect duplicates from your client, except one of type `other-id`: the API stores it as `other_id` (reads show `other_id`), so a second `other-id` never matches the first. |
 
 ## Partial and invalid dates
 
@@ -419,9 +419,10 @@ Errors come back as JSON with an `error-code` that says which rule failed:
 | 400 | 9024 | The body includes `put-code`. | Leave it out when creating. |
 | 400 | 9055 | The end date is before the start date. | Fix the dates. |
 | 400 | 9049 | A date that doesn't exist, such as 30 February. | Fix the date. |
-| 400 | 9047 | Malformed JSON, an unknown field, an empty string, or a year outside 1900-2100. | Read the text after "Full validation error" in `developer-message`. |
-| 401 | `invalid_token` | The token is missing, expired or revoked. | Get a new token (steps 1 and 2). |
-| 401 | 9017 | The token was granted for a different ORCID iD. | Use the `orcid` from the token response in the URL. |
+| 400 | 9047 | An unknown field, an empty string, or a year outside 1900-2100. | Read the text after "Full validation error" in `developer-message`. |
+| 400 | | The body isn't JSON at all. The answer is plain text with the parser's message, not an ORCID error. | Check the JSON. |
+| 401 | `invalid_token` | The token is unknown, expired or revoked. | Get a new token (steps 1 and 2). |
+| 401 | 9017 | The token was granted for a different ORCID iD, or the iD in the URL doesn't exist. | Use the `orcid` from the token response in the URL. |
+| 403 | `forbidden` | No token was sent, or the token belongs to a public client. | Send the `Authorization: Bearer` header with a member client's token. |
 | 403 | 9038 | The token doesn't have `/activities/update`. | Ask for that scope in step 1. |
-| 404 | 9016 | The ORCID iD doesn't exist. | Check the iD in the URL. |
 | 409 | 9021 | Your client already added an employment with the same `self` external identifier. | Update the existing item with PUT. Its put-code is in `developer-message`. |

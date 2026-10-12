@@ -9,7 +9,7 @@ icon: book
 Works are research outputs: articles, datasets, software, and so on. Your client needs a token with the `/activities/update` scope that the researcher granted. Your client becomes the source of each work it adds, and only it can update or delete that work later.
 
 {% hint style="info" %}
-Everything on this page uses the **sandbox**: `pub.sandbox.orcid.org` and `api.sandbox.orcid.org`. In production, use the same paths on `pub.orcid.org` and `api.orcid.org`.
+Everything on this page uses the **sandbox**: `api.sandbox.orcid.org`. In production, use the same paths on `api.orcid.org`.
 {% endhint %}
 
 ## What a work needs

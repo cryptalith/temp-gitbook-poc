@@ -13,7 +13,8 @@ The ORCID Member API lets ORCID member organizations write to researchers' ORCID
 | --- | --- | --- |
 | Use it for | Building and testing, with test records | Real researchers' records |
 | OAuth (sign-in and tokens) | `https://sandbox.orcid.org/oauth/...` | `https://orcid.org/oauth/...` |
-| API | `https://api.sandbox.orcid.org/v3.0` | `https://api.orcid.org/v3.0` |
+| Member API | `https://api.sandbox.orcid.org/v3.0` | `https://api.orcid.org/v3.0` |
+| Public API | `https://pub.sandbox.orcid.org/v3.0` | `https://pub.orcid.org/v3.0` |
 | Credentials | Anyone can [request them](https://orcid.org/content/register-client-application); no membership needed | ORCID members only |
 
 Build against the sandbox first. Moving to production means changing the hosts and the credentials, nothing else.
