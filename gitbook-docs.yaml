@@ -29,13 +29,14 @@ site:
           draft: true
           content:
             directory: ./product-docs
+            language: en
     - type: section
       key: section-3
       title: API Reference
       path: api-reference
-      default: true
       description: "This is a test "
       icon: dev
+      default: true
       children:
         - type: space
           key: space-3
