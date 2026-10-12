@@ -359,7 +359,7 @@ if (deleted.status !== 204) throw new Error(`Delete failed: ${deleted.status}`);
   "external-ids": {
     "external-id": [
       {
-        "external-id-type": "other-id",
+        "external-id-type": "grant_number",
         "external-id-value": "BU-HR-000123",
         "external-id-url": { "value": "https://hr.example.org/staff/000123" },
         "external-id-relationship": "self"
@@ -381,7 +381,7 @@ If your client sends this body a second time, ORCID returns `409` (error 9021) i
 | `disambiguated-organization` | The identifier and source must match an organization ORCID already knows. Prefer ROR, with the full ROR URL as the identifier. |
 | `address.country` | ISO 3166-1 alpha-2 code in upper case, for example `US`. |
 | `start-date`, `end-date` | Optional. The year is required, and the month and day can be left out. Send each part as a zero-padded string: `"09"`, not `9`. Years run from 1900 to 2100, and the start can't be after the end. Leave out `end-date` for a current position. |
-| `url`, `external-id-url` | Objects, not strings: `{ "value": "https://..." }`. |
+| `url`, `external-id-url` | Objects: `{ "value": "https://..." }`. The API also takes a bare string, but it always answers with the object. |
 | `visibility` | On a claimed record, ORCID applies the researcher's own default visibility and ignores the value you send. |
 | `put-code` | Never send it when you create. ORCID assigns it. |
 | `external-ids` | Optional. A `self` identifier is what lets ORCID detect duplicates from your client. |
