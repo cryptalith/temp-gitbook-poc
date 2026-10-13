@@ -168,7 +168,7 @@
                 }
               }
             },
-            "description": "Fetch client details"
+            "description": "The client's public details"
           },
           "401": {
             "content": {
@@ -212,7 +212,7 @@
                 }
               }
             },
-            "description": "No record has this iD, or no item has this put-code (error 9016)."
+            "description": "No client has this id (error 9016)."
           }
         },
         "security": [
@@ -288,16 +288,6 @@
             },
             "description": "One row per result, with the requested fields"
           },
-          "400": {
-            "content": {
-              "text/csv": {
-                "schema": {
-                  "$ref": "#/components/schemas/OrcidError"
-                }
-              }
-            },
-            "description": "The rows parameter is not a number, or is out of range (1,000 at most)"
-          },
           "401": {
             "content": {
               "application/json": {
@@ -343,7 +333,7 @@
             ]
           }
         ],
-        "summary": "Search records",
+        "summary": "Search records, as CSV",
         "tags": [
           "Search"
         ]
@@ -425,7 +415,7 @@
                 }
               }
             },
-            "description": "The rows parameter is not a number, or is out of range (1,000 at most)"
+            "description": "The rows parameter is not a number, or is out of range (1,000 at most) (error 9012)"
           },
           "401": {
             "content": {
@@ -472,7 +462,7 @@
             ]
           }
         ],
-        "summary": "Search records",
+        "summary": "Search records, with more fields per result",
         "tags": [
           "Search"
         ]
@@ -617,7 +607,7 @@
         },
         "responses": {
           "201": {
-            "description": "Group ID record created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -738,7 +728,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Group ID record deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -842,7 +832,7 @@
                 }
               }
             },
-            "description": "No group ID record has this put-code (error 9026)"
+            "description": "No group ID record has this put-code (error 9026), or the put-code is not a number (9034)"
           },
           "401": {
             "content": {
@@ -876,7 +866,7 @@
                 }
               }
             },
-            "description": "No token was sent, or the token belongs to a public client (an OAuth error, always JSON); or the token lacks the scope this needs (error 9038); or the item is private and another client added it (9013)."
+            "description": "No token was sent, or the token belongs to a public client (an OAuth error, always JSON); or the token lacks the scope this needs (error 9038)."
           }
         },
         "security": [
@@ -925,7 +915,7 @@
                 }
               }
             },
-            "description": "Group ID record updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -975,6 +965,16 @@
               }
             },
             "description": "No token was sent, or the token belongs to a public client (an OAuth error, always JSON); or the token lacks the scope this needs (error 9038); or another client added the item (9010)."
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrcidError"
+                }
+              }
+            },
+            "description": "Another group ID record already has this group-id (error 9025)."
           }
         },
         "security": [
@@ -1051,7 +1051,7 @@
                 }
               }
             },
-            "description": "Search records"
+            "description": "The iDs of the matching records"
           },
           "400": {
             "content": {
@@ -1061,7 +1061,7 @@
                 }
               }
             },
-            "description": "The rows parameter is not a number, or is out of range (1,000 at most)"
+            "description": "The rows parameter is not a number, or is out of range (1,000 at most) (error 9012)"
           },
           "401": {
             "content": {
@@ -1138,7 +1138,7 @@
                 }
               }
             },
-            "description": "Fetch record details"
+            "description": "The record"
           },
           "301": {
             "content": {
@@ -1174,7 +1174,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -1475,7 +1475,7 @@
                 }
               }
             },
-            "description": "Fetch all activities"
+            "description": "A summary of every activity on the record"
           },
           "301": {
             "content": {
@@ -1511,7 +1511,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -1596,7 +1596,7 @@
                 }
               }
             },
-            "description": "Fetch all addresses of a profile"
+            "description": "The record's addresses"
           },
           "301": {
             "content": {
@@ -1632,7 +1632,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -1759,7 +1759,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -1796,7 +1796,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9030)."
           }
         },
         "security": [
@@ -1868,7 +1868,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -1955,7 +1955,7 @@
                 }
               }
             },
-            "description": "Fetch an address"
+            "description": "The address"
           },
           "301": {
             "content": {
@@ -2001,7 +2001,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -2102,7 +2102,7 @@
                 }
               }
             },
-            "description": "Edit an address"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -2134,7 +2134,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -2171,7 +2171,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9030)."
           }
         },
         "security": [
@@ -2214,7 +2214,7 @@
                 }
               }
             },
-            "description": "Get biography details"
+            "description": "The biography"
           },
           "301": {
             "content": {
@@ -2250,7 +2250,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -2267,7 +2267,7 @@
                 }
               }
             },
-            "description": "No token was sent, or the token belongs to a public client (an OAuth error, always JSON); or the token lacks the scope this needs (error 9038)."
+            "description": "No token was sent, or the token belongs to a public client (an OAuth error, always JSON); or the token lacks the scope this needs (error 9038); or the biography is private (9013)."
           },
           "404": {
             "content": {
@@ -2277,7 +2277,7 @@
                 }
               }
             },
-            "description": "The record has no biography (error 9041)"
+            "description": "The record has no biography (error 9041), or no record has this iD (9016)"
           },
           "409": {
             "content": {
@@ -2337,7 +2337,7 @@
         },
         "responses": {
           "201": {
-            "description": "Distinction created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -2379,7 +2379,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -2468,7 +2468,7 @@
                 }
               }
             },
-            "description": "Fetch an Distinction summary"
+            "description": "The summary of the distinction"
           },
           "301": {
             "content": {
@@ -2514,7 +2514,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -2601,7 +2601,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Distinction deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -2628,7 +2628,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -2715,7 +2715,7 @@
                 }
               }
             },
-            "description": "OK"
+            "description": "The distinction"
           },
           "301": {
             "content": {
@@ -2761,7 +2761,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -2862,7 +2862,7 @@
                 }
               }
             },
-            "description": "Distinction updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -2894,7 +2894,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -2931,7 +2931,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -2974,7 +2974,7 @@
                 }
               }
             },
-            "description": "Fetch all distinctions"
+            "description": "The record's distinctions"
           },
           "301": {
             "content": {
@@ -3010,7 +3010,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -3171,7 +3171,7 @@
         },
         "responses": {
           "201": {
-            "description": "Education created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -3230,7 +3230,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -3319,7 +3319,7 @@
                 }
               }
             },
-            "description": "Fetch an Education summary"
+            "description": "The summary of the education"
           },
           "301": {
             "content": {
@@ -3365,7 +3365,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -3452,7 +3452,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Education deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -3479,7 +3479,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -3566,7 +3566,7 @@
                 }
               }
             },
-            "description": "OK"
+            "description": "The education"
           },
           "301": {
             "content": {
@@ -3612,7 +3612,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -3939,7 +3939,7 @@
                 }
               }
             },
-            "description": "Education updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -3971,7 +3971,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -4008,7 +4008,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -4051,7 +4051,7 @@
                 }
               }
             },
-            "description": "Fetch all educations"
+            "description": "The record's educations"
           },
           "301": {
             "content": {
@@ -4087,7 +4087,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -4172,7 +4172,7 @@
                 }
               }
             },
-            "description": "Fetch all emails for an ORCID ID"
+            "description": "The record's emails"
           },
           "301": {
             "content": {
@@ -4208,7 +4208,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -4624,7 +4624,7 @@
         },
         "responses": {
           "201": {
-            "description": "Employment created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -4778,7 +4778,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -4952,7 +4952,7 @@
                 }
               }
             },
-            "description": "Fetch an Employment Summary"
+            "description": "The summary of the employment"
           },
           "301": {
             "content": {
@@ -5019,7 +5019,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -5133,7 +5133,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Employment deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -5181,7 +5181,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -5341,7 +5341,7 @@
                 }
               }
             },
-            "description": "Fetch an Employment"
+            "description": "The employment"
           },
           "301": {
             "content": {
@@ -5408,7 +5408,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -5818,7 +5818,7 @@
                 }
               }
             },
-            "description": "Employment updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -5903,7 +5903,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -5953,7 +5953,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -6076,7 +6076,7 @@
                 }
               }
             },
-            "description": "Fetch all employments"
+            "description": "The record's employments"
           },
           "301": {
             "content": {
@@ -6133,7 +6133,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -6232,7 +6232,7 @@
                 }
               }
             },
-            "description": "Fetch external identifiers"
+            "description": "The record's person external identifiers"
           },
           "301": {
             "content": {
@@ -6268,7 +6268,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -6395,7 +6395,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -6432,7 +6432,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9030)."
           }
         },
         "security": [
@@ -6504,7 +6504,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -6591,7 +6591,7 @@
                 }
               }
             },
-            "description": "Fetch external identifier"
+            "description": "The person external identifier"
           },
           "301": {
             "content": {
@@ -6637,7 +6637,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -6738,7 +6738,7 @@
                 }
               }
             },
-            "description": "Edit external identifier"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -6770,7 +6770,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -6807,7 +6807,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9030)."
           }
         },
         "security": [
@@ -6852,7 +6852,7 @@
         },
         "responses": {
           "201": {
-            "description": "Funding created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -6894,7 +6894,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -6983,7 +6983,7 @@
                 }
               }
             },
-            "description": "Fetch a Funding Summary"
+            "description": "The summary of the funding"
           },
           "301": {
             "content": {
@@ -7029,7 +7029,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -7116,7 +7116,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Funding deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -7143,7 +7143,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -7230,7 +7230,7 @@
                 }
               }
             },
-            "description": "Fetch a Funding"
+            "description": "The funding"
           },
           "301": {
             "content": {
@@ -7276,7 +7276,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -7377,7 +7377,7 @@
                 }
               }
             },
-            "description": "Funding updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -7409,7 +7409,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -7446,7 +7446,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -7489,7 +7489,7 @@
                 }
               }
             },
-            "description": "Fetch all fundings"
+            "description": "The record's fundings"
           },
           "301": {
             "content": {
@@ -7525,7 +7525,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -7612,7 +7612,7 @@
         },
         "responses": {
           "201": {
-            "description": "InvitedPosition created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -7654,7 +7654,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -7743,7 +7743,7 @@
                 }
               }
             },
-            "description": "Fetch an InvitedPosition summary"
+            "description": "The summary of the invited position"
           },
           "301": {
             "content": {
@@ -7789,7 +7789,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -7876,7 +7876,7 @@
         ],
         "responses": {
           "204": {
-            "description": "InvitedPosition deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -7903,7 +7903,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -7990,7 +7990,7 @@
                 }
               }
             },
-            "description": "OK"
+            "description": "The invited position"
           },
           "301": {
             "content": {
@@ -8036,7 +8036,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -8137,7 +8137,7 @@
                 }
               }
             },
-            "description": "InvitedPosition updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -8169,7 +8169,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -8206,7 +8206,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -8249,7 +8249,7 @@
                 }
               }
             },
-            "description": "Fetch all invitedPositions"
+            "description": "The record's invited positions"
           },
           "301": {
             "content": {
@@ -8285,7 +8285,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -8370,7 +8370,7 @@
                 }
               }
             },
-            "description": "Fetch keywords"
+            "description": "The record's keywords"
           },
           "301": {
             "content": {
@@ -8406,7 +8406,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -8533,7 +8533,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -8570,7 +8570,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9030)."
           }
         },
         "security": [
@@ -8642,7 +8642,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -8729,7 +8729,7 @@
                 }
               }
             },
-            "description": "Fetch keyword"
+            "description": "The keyword"
           },
           "301": {
             "content": {
@@ -8775,7 +8775,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -8876,7 +8876,7 @@
                 }
               }
             },
-            "description": "Edit keyword"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -8908,7 +8908,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -8945,7 +8945,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9030)."
           }
         },
         "security": [
@@ -8990,7 +8990,7 @@
         },
         "responses": {
           "201": {
-            "description": "Membership created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -9032,7 +9032,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -9121,7 +9121,7 @@
                 }
               }
             },
-            "description": "Fetch an Membership summary"
+            "description": "The summary of the membership"
           },
           "301": {
             "content": {
@@ -9167,7 +9167,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -9254,7 +9254,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Membership deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -9281,7 +9281,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -9368,7 +9368,7 @@
                 }
               }
             },
-            "description": "OK"
+            "description": "The membership"
           },
           "301": {
             "content": {
@@ -9414,7 +9414,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -9515,7 +9515,7 @@
                 }
               }
             },
-            "description": "Membership updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -9547,7 +9547,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -9584,7 +9584,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -9627,7 +9627,7 @@
                 }
               }
             },
-            "description": "Fetch all memberships"
+            "description": "The record's memberships"
           },
           "301": {
             "content": {
@@ -9663,7 +9663,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -9784,7 +9784,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -9867,7 +9867,7 @@
                     "authorization-url": {
                       "uri": "https://sandbox.orcid.org/oauth/authorize?client_id=APP-XXXXXXXXXXXXXXXX&response_type=code&scope=/activities/update&redirect_uri=https://developers.google.com/oauthplayground",
                       "path": "/oauth/authorize?client_id=APP-XXXXXXXXXXXXXXXX&response_type=code&scope=/activities/update&redirect_uri=https://developers.google.com/oauthplayground",
-                      "host": "orcid.org"
+                      "host": "sandbox.orcid.org"
                     },
                     "notification-subject": "Connect your ORCID record",
                     "notification-intro": "We would like to add your recent work to your ORCID record.",
@@ -9951,7 +9951,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -9988,7 +9988,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
           }
         },
         "security": [
@@ -10057,7 +10057,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -10074,7 +10074,7 @@
                 }
               }
             },
-            "description": "No token was sent, or the token belongs to a public client (an OAuth error, always JSON); or the token lacks the scope this needs (error 9038); or another client sent the notification (9004)."
+            "description": "No token was sent, or the token belongs to a public client (an OAuth error, always JSON); or the token lacks the scope this needs (error 9038); or another client sent the notification (9010), or the record owner has already read it (9009)."
           },
           "404": {
             "content": {
@@ -10232,7 +10232,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -10312,7 +10312,7 @@
                 }
               }
             },
-            "description": "Fetch Other names"
+            "description": "The record's other names"
           },
           "301": {
             "content": {
@@ -10348,7 +10348,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -10475,7 +10475,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -10512,7 +10512,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9030)."
           }
         },
         "security": [
@@ -10584,7 +10584,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -10671,7 +10671,7 @@
                 }
               }
             },
-            "description": "Fetch Other name"
+            "description": "The other name"
           },
           "301": {
             "content": {
@@ -10717,7 +10717,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -10818,7 +10818,7 @@
                 }
               }
             },
-            "description": "Edit other name"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -10850,7 +10850,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -10887,7 +10887,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9030)."
           }
         },
         "security": [
@@ -10932,7 +10932,7 @@
         },
         "responses": {
           "201": {
-            "description": "Peer Review created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -10974,7 +10974,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -11063,7 +11063,7 @@
                 }
               }
             },
-            "description": "Fetch a Peer Review Summary"
+            "description": "The summary of the peer review"
           },
           "301": {
             "content": {
@@ -11109,7 +11109,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -11196,7 +11196,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Peer Review deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -11223,7 +11223,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -11310,7 +11310,7 @@
                 }
               }
             },
-            "description": "Fetch a Peer Review"
+            "description": "The peer review"
           },
           "301": {
             "content": {
@@ -11356,7 +11356,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -11457,7 +11457,7 @@
                 }
               }
             },
-            "description": "Peer Review updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -11489,7 +11489,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -11526,7 +11526,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -11569,7 +11569,7 @@
                 }
               }
             },
-            "description": "Fetch all peer reviews"
+            "description": "The record's peer reviews"
           },
           "301": {
             "content": {
@@ -11605,7 +11605,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -11690,7 +11690,7 @@
                 }
               }
             },
-            "description": "Fetch person details"
+            "description": "The person section of the record"
           },
           "301": {
             "content": {
@@ -11726,7 +11726,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -11811,7 +11811,7 @@
                 }
               }
             },
-            "description": "Fetch personal details for an ORCID ID"
+            "description": "The record's name, other names and biography"
           },
           "301": {
             "content": {
@@ -11847,7 +11847,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -11934,7 +11934,7 @@
         },
         "responses": {
           "201": {
-            "description": "Qualification created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -11976,7 +11976,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -12065,7 +12065,7 @@
                 }
               }
             },
-            "description": "Fetch an Qualification summary"
+            "description": "The summary of the qualification"
           },
           "301": {
             "content": {
@@ -12111,7 +12111,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -12198,7 +12198,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Qualification deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -12225,7 +12225,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -12312,7 +12312,7 @@
                 }
               }
             },
-            "description": "OK"
+            "description": "The qualification"
           },
           "301": {
             "content": {
@@ -12358,7 +12358,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -12459,7 +12459,7 @@
                 }
               }
             },
-            "description": "Qualification updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -12491,7 +12491,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -12528,7 +12528,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -12571,7 +12571,7 @@
                 }
               }
             },
-            "description": "Fetch all qualifications"
+            "description": "The record's qualifications"
           },
           "301": {
             "content": {
@@ -12607,7 +12607,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -13147,7 +13147,7 @@
                 }
               }
             },
-            "description": "Fetch record details"
+            "description": "The record"
           },
           "301": {
             "content": {
@@ -13183,7 +13183,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -13238,7 +13238,7 @@
             ]
           }
         ],
-        "summary": "Fetch the record",
+        "summary": "Fetch the record at its /record path",
         "tags": [
           "Record"
         ]
@@ -13270,7 +13270,7 @@
         },
         "responses": {
           "201": {
-            "description": "ResearchResource created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -13312,7 +13312,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -13401,7 +13401,7 @@
                 }
               }
             },
-            "description": "Fetch a Research Resource summary"
+            "description": "The summary of the research resource"
           },
           "301": {
             "content": {
@@ -13447,7 +13447,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -13534,7 +13534,7 @@
         ],
         "responses": {
           "204": {
-            "description": "ResearchResource deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -13561,7 +13561,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -13648,7 +13648,7 @@
                 }
               }
             },
-            "description": "OK"
+            "description": "The research resource"
           },
           "301": {
             "content": {
@@ -13694,7 +13694,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -13795,7 +13795,7 @@
                 }
               }
             },
-            "description": "ResearchResource updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -13827,7 +13827,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -13864,7 +13864,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -13907,7 +13907,7 @@
                 }
               }
             },
-            "description": "Fetch all Research Resources"
+            "description": "The record's research resources"
           },
           "301": {
             "content": {
@@ -13943,7 +13943,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -14028,7 +14028,7 @@
                 }
               }
             },
-            "description": "Fetch all researcher urls for an ORCID ID"
+            "description": "The record's researcher URLs"
           },
           "301": {
             "content": {
@@ -14064,7 +14064,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -14191,7 +14191,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -14228,7 +14228,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9030)."
           }
         },
         "security": [
@@ -14300,7 +14300,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -14387,7 +14387,7 @@
                 }
               }
             },
-            "description": "Fetch one researcher url for an ORCID ID"
+            "description": "The researcher URL"
           },
           "301": {
             "content": {
@@ -14433,7 +14433,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -14534,7 +14534,7 @@
                 }
               }
             },
-            "description": "Edits researcher url for an ORCID ID"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -14566,7 +14566,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -14603,7 +14603,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9030)."
           }
         },
         "security": [
@@ -14648,7 +14648,7 @@
         },
         "responses": {
           "201": {
-            "description": "Service created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -14690,7 +14690,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -14779,7 +14779,7 @@
                 }
               }
             },
-            "description": "Fetch an Service summary"
+            "description": "The summary of the service"
           },
           "301": {
             "content": {
@@ -14825,7 +14825,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -14912,7 +14912,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Service deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -14939,7 +14939,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -15026,7 +15026,7 @@
                 }
               }
             },
-            "description": "OK"
+            "description": "The service"
           },
           "301": {
             "content": {
@@ -15072,7 +15072,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -15173,7 +15173,7 @@
                 }
               }
             },
-            "description": "Service updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -15205,7 +15205,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -15242,7 +15242,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -15285,7 +15285,7 @@
                 }
               }
             },
-            "description": "Fetch all services"
+            "description": "The record's services"
           },
           "301": {
             "content": {
@@ -15321,7 +15321,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -15442,7 +15442,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -15469,7 +15469,7 @@
                 }
               }
             },
-            "description": "No record has this iD, or no item has this put-code (error 9016)."
+            "description": "No record has this iD (error 9016). While the summary endpoint is switched off (feature MAPI_SUMMARY_ENDPOINT), every call answers 404 with Tomcat's HTML error page."
           },
           "409": {
             "content": {
@@ -15932,7 +15932,7 @@
         },
         "responses": {
           "201": {
-            "description": "Work created, see HTTP Location header for URI",
+            "description": "Created; the new item's URI is in the Location header",
             "headers": {
               "Location": {
                 "description": "URI of the new item",
@@ -16009,7 +16009,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -16071,7 +16071,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021); or the record already holds the most works it may (9048)."
           }
         },
         "security": [
@@ -16123,7 +16123,7 @@
                 }
               }
             },
-            "description": "Fetch a Work Summary"
+            "description": "The summary of the work"
           },
           "301": {
             "content": {
@@ -16169,7 +16169,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -16256,7 +16256,7 @@
         ],
         "responses": {
           "204": {
-            "description": "Work deleted"
+            "description": "Deleted"
           },
           "400": {
             "content": {
@@ -16283,7 +16283,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -16504,7 +16504,7 @@
                 }
               }
             },
-            "description": "Fetch a Work"
+            "description": "The work"
           },
           "301": {
             "content": {
@@ -16550,7 +16550,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -17072,7 +17072,7 @@
                 }
               }
             },
-            "description": "Work updated"
+            "description": "Updated; the body is the item as stored"
           },
           "400": {
             "content": {
@@ -17116,7 +17116,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -17133,7 +17133,7 @@
                 }
               }
             },
-            "description": "No token was sent, or the token belongs to a public client (an OAuth error, always JSON); or the token lacks the scope this needs (error 9038); or another client added the item (9010)."
+            "description": "No token was sent, or the token belongs to a public client (an OAuth error, always JSON); or the token lacks the scope this needs (error 9038); or another client added the item (9010; 9014 when the body changes nothing)."
           },
           "404": {
             "content": {
@@ -17153,7 +17153,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the item duplicates one already on the record (9021)."
           }
         },
         "security": [
@@ -17321,7 +17321,7 @@
                 }
               }
             },
-            "description": "Fetch all works"
+            "description": "The record's works"
           },
           "301": {
             "content": {
@@ -17357,7 +17357,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -17915,7 +17915,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -17952,7 +17952,7 @@
                 }
               }
             },
-            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated."
+            "description": "The record is locked (error 9018), deactivated (9044), or unclaimed and still in its claim period (9036); or deprecated; or the record already holds the most works it may (9048)."
           }
         },
         "security": [
@@ -18264,7 +18264,7 @@
                 }
               }
             },
-            "description": "Fetch specified works"
+            "description": "The requested works; an error element stands in for each put-code that could not be read"
           },
           "301": {
             "content": {
@@ -18310,7 +18310,7 @@
                 }
               }
             },
-            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017), which includes an iD that has no record."
+            "description": "The token is unknown, expired or revoked (an OAuth error, always JSON), or it was granted for another record (error 9017). A user's token sent to an iD that has no record gets this too."
           },
           "403": {
             "content": {
@@ -18421,11 +18421,18 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrcidError"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/OrcidError"
+                    },
+                    {
+                      "$ref": "#/components/schemas/OAuthError"
+                    }
+                  ]
                 }
               }
             },
-            "description": "The webhook belongs to another client"
+            "description": "The webhook belongs to another client; or no token was sent, or the token belongs to a public client (an OAuth error, always JSON); or the token lacks the scope this needs (error 9038)."
           },
           "404": {
             "content": {
@@ -19145,7 +19152,7 @@
         "properties": {
           "contributor-role": {
             "type": "string",
-            "description": "An original role or a CRediT role URI; anything else is refused (error 9058). The XSD says the original roles will be removed in a future version.",
+            "description": "An original role or a CRediT role URI, as reads return them. Other values are refused (error 9058), apart from a few aliases the API normalises, such as CONCEPTUALIZATION. The XSD says the original roles will be removed in a future version.",
             "enum": [
               "author",
               "assignee",
@@ -19192,10 +19199,6 @@
             }
           }
         },
-        "required": [
-          "contributor-role",
-          "contributor-sequence"
-        ],
         "xml": {
           "name": "contributor-attributes",
           "namespace": "http://www.orcid.org/ns/common"
@@ -20618,7 +20621,7 @@
         "properties": {
           "contributor-role": {
             "type": "string",
-            "description": "A funding role or a CRediT role URI; anything else is refused (error 9058).",
+            "description": "A funding role or a CRediT role URI, as reads return them. Other values are refused (error 9058), apart from a few aliases the API normalises, such as SUPERVISION.",
             "enum": [
               "lead",
               "co-lead",
@@ -20646,9 +20649,6 @@
             }
           }
         },
-        "required": [
-          "contributor-role"
-        ],
         "xml": {
           "name": "contributorAttributes",
           "namespace": "http://www.orcid.org/ns/funding"
@@ -21253,6 +21253,7 @@
           },
           "item-type": {
             "type": "string",
+            "description": "A permission notification accepts only employment, education, qualification, invited-position, distinction, membership, service, funding, work and peer-review (error 9047).",
             "enum": [
               "bio",
               "distinction",
@@ -21283,7 +21284,6 @@
           }
         },
         "required": [
-          "external-id",
           "item-name",
           "item-type"
         ],
@@ -21795,6 +21795,8 @@
         "required": [
           "authorization-url",
           "items",
+          "notification-intro",
+          "notification-subject",
           "notification-type"
         ],
         "xml": {
@@ -21957,6 +21959,7 @@
         "properties": {
           "city": {
             "type": "string",
+            "description": "Required for education and employment (error 9060).",
             "nullable": true,
             "xml": {
               "namespace": "http://www.orcid.org/ns/common"
@@ -21964,6 +21967,7 @@
           },
           "country": {
             "type": "string",
+            "description": "Required for education and employment (error 9060).",
             "enum": [
               "AF",
               "AX",
@@ -22230,10 +22234,6 @@
             }
           }
         },
-        "required": [
-          "city",
-          "country"
-        ],
         "xml": {
           "name": "organizationAddress",
           "namespace": "http://www.orcid.org/ns/common"

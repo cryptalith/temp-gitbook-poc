@@ -14,7 +14,7 @@ Everything on this page uses the **sandbox**: `pub.sandbox.orcid.org` and `api.s
 
 ## Read the public record
 
-Send `GET /v3.0/{orcid}/record` to the Public API. A token is optional: requests without one count against a daily quota per IP address, and requests with a `/read-public` token don't.
+Send `GET /v3.0/{orcid}/record` to the Public API. A token is optional. When ORCID's rate limiting is on, requests without one count against a daily quota per IP address, and requests with a `/read-public` token don't.
 
 {% tabs %}
 {% tab title="cURL" %}
@@ -106,8 +106,8 @@ A token from the client credentials grant with the `/read-public` scope also wor
 | 403 | `forbidden` | Member API: no token was sent, or the token belongs to a public client. |
 | 403 | 9038 | Member API: the item isn't public and the token is a client-credentials `/read-public` one. |
 | 403 | 9013 | Member API: the item is private and another client added it. |
-| 403 | 9039 | Public API: the item you asked for by put-code isn't public. |
-| 404 | 9016 | No record has this iD (Public API, or a client-credentials token), or no item has this put-code. |
+| 403 | 9039 | Public API: the item you asked for isn't public (an item by put-code, or the biography). |
+| 404 | 9016 | No record has this iD (Public API, or a client-credentials token), or no item has this put-code. On the Public API, the lists of distinctions, invited positions, memberships, qualifications, services and research resources answer an empty `200` for an iD with no record instead. |
 | 409 | 9018, 9044 | The record is locked or deactivated. |
 | 301 | 9007 | The record was deprecated. `Location` is the same URL with the primary record's iD. |
 

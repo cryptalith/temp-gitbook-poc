@@ -266,4 +266,4 @@ if (deleted.status !== 204) throw new Error(`Delete failed: ${deleted.status}`);
 {% endtab %}
 {% endtabs %}
 
-Only the client that added a work can update or delete it. Any other client gets `403` (error `9010`).
+Only the client that added a work can update or delete it. Any other client gets `403`: error `9010`, or `9014` for an update that changes nothing.
