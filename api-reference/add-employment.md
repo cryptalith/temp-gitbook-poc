@@ -187,6 +187,111 @@ The block below is generated from the OpenAPI spec. Use the example picker in th
 [OpenAPI Orcid-POC](https://raw.githubusercontent.com/cryptalith/temp-gitbook-poc/main/openapi/orcid-member-api.json)
 {% endopenapi-operation %}
 
+## Next steps: update or delete
+
+To change the employment later, send the **whole item** back with `PUT`, including its put-code. Fields you leave out are cleared. Leave `visibility` out: changing it returns `403` (error 9035).
+
+To remove it, send `DELETE` to the same URL. ORCID answers `204 No Content`.
+
+Only the client that added an item can update or delete it. Any other client gets `403` (error 9010). The full reference for both calls is in the Reference section.
+
+{% tabs %}
+{% tab title="cURL" %}
+```bash
+# Update: promote the researcher
+curl -i -X PUT 'https://api.sandbox.orcid.org/v3.0/0000-0002-1825-0097/employment/1234567' \
+  -H 'Authorization: Bearer <ACCESS_TOKEN>' \
+  -H 'Content-Type: application/json' \
+  -H 'Accept: application/json' \
+  -d '{
+    "put-code": 1234567,
+    "department-name": "Department of Chemistry",
+    "role-title": "Professor",
+    "start-date": { "year": { "value": "2021" }, "month": { "value": "09" }, "day": { "value": "01" } },
+    "organization": {
+      "name": "Boston University",
+      "address": { "city": "Boston", "region": "MA", "country": "US" },
+      "disambiguated-organization": {
+        "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+        "disambiguation-source": "ROR"
+      }
+    }
+  }'
+
+# Delete
+curl -i -X DELETE 'https://api.sandbox.orcid.org/v3.0/0000-0002-1825-0097/employment/1234567' \
+  -H 'Authorization: Bearer <ACCESS_TOKEN>' \
+  -H 'Accept: application/json'
+```
+{% endtab %}
+
+{% tab title="Python" %}
+```python
+import requests
+
+orcid = "0000-0002-1825-0097"
+put_code = 1234567
+url = f"https://api.sandbox.orcid.org/v3.0/{orcid}/employment/{put_code}"
+headers = {"Authorization": "Bearer <ACCESS_TOKEN>", "Accept": "application/json"}
+
+# Update: send the whole item, with its put-code
+employment = {
+    "put-code": put_code,
+    "department-name": "Department of Chemistry",
+    "role-title": "Professor",
+    "start-date": {"year": {"value": "2021"}, "month": {"value": "09"}, "day": {"value": "01"}},
+    "organization": {
+        "name": "Boston University",
+        "address": {"city": "Boston", "region": "MA", "country": "US"},
+        "disambiguated-organization": {
+            "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+            "disambiguation-source": "ROR",
+        },
+    },
+}
+requests.put(url, json=employment, headers=headers).raise_for_status()
+
+# Delete
+requests.delete(url, headers=headers).raise_for_status()
+```
+{% endtab %}
+
+{% tab title="JavaScript" %}
+```javascript
+const orcid = "0000-0002-1825-0097";
+const putCode = 1234567;
+const url = `https://api.sandbox.orcid.org/v3.0/${orcid}/employment/${putCode}`;
+const headers = { Authorization: "Bearer <ACCESS_TOKEN>", Accept: "application/json" };
+
+// Update: send the whole item, with its put-code
+const employment = {
+  "put-code": putCode,
+  "department-name": "Department of Chemistry",
+  "role-title": "Professor",
+  "start-date": { year: { value: "2021" }, month: { value: "09" }, day: { value: "01" } },
+  organization: {
+    name: "Boston University",
+    address: { city: "Boston", region: "MA", country: "US" },
+    "disambiguated-organization": {
+      "disambiguated-organization-identifier": "https://ror.org/05qwgg493",
+      "disambiguation-source": "ROR",
+    },
+  },
+};
+const updated = await fetch(url, {
+  method: "PUT",
+  headers: { ...headers, "Content-Type": "application/json" },
+  body: JSON.stringify(employment),
+});
+if (!updated.ok) throw new Error(JSON.stringify(await updated.json()));
+
+// Delete
+const deleted = await fetch(url, { method: "DELETE", headers });
+if (deleted.status !== 204) throw new Error(`Delete failed: ${deleted.status}`);
+```
+{% endtab %}
+{% endtabs %}
+
 ## More example bodies
 
 <details>
@@ -254,7 +359,7 @@ The block below is generated from the OpenAPI spec. Use the example picker in th
   "external-ids": {
     "external-id": [
       {
-        "external-id-type": "other-id",
+        "external-id-type": "grant_number",
         "external-id-value": "BU-HR-000123",
         "external-id-url": { "value": "https://hr.example.org/staff/000123" },
         "external-id-relationship": "self"
@@ -276,10 +381,10 @@ If your client sends this body a second time, ORCID returns `409` (error 9021) i
 | `disambiguated-organization` | The identifier and source must match an organization ORCID already knows. Prefer ROR, with the full ROR URL as the identifier. |
 | `address.country` | ISO 3166-1 alpha-2 code in upper case, for example `US`. |
 | `start-date`, `end-date` | Optional. The year is required, and the month and day can be left out. Send each part as a zero-padded string: `"09"`, not `9`. Years run from 1900 to 2100, and the start can't be after the end. Leave out `end-date` for a current position. |
-| `url`, `external-id-url` | Objects, not strings: `{ "value": "https://..." }`. |
+| `url`, `external-id-url` | Objects: `{ "value": "https://..." }`. The API also takes a bare string, but it always answers with the object. |
 | `visibility` | On a claimed record, ORCID applies the researcher's own default visibility and ignores the value you send. |
 | `put-code` | Never send it when you create. ORCID assigns it. |
-| `external-ids` | Optional. A `self` identifier is what lets ORCID detect duplicates from your client. |
+| `external-ids` | Optional. A `self` identifier is what lets ORCID detect duplicates from your client, except one of type `other-id`: the API stores it as `other_id` (reads show `other_id`), so a second `other-id` never matches the first. |
 
 ## Partial and invalid dates
 
@@ -314,9 +419,10 @@ Errors come back as JSON with an `error-code` that says which rule failed:
 | 400 | 9024 | The body includes `put-code`. | Leave it out when creating. |
 | 400 | 9055 | The end date is before the start date. | Fix the dates. |
 | 400 | 9049 | A date that doesn't exist, such as 30 February. | Fix the date. |
-| 400 | 9047 | Malformed JSON, an unknown field, an empty string, or a year outside 1900-2100. | Read the text after "Full validation error" in `developer-message`. |
-| 401 | `invalid_token` | The token is missing, expired or revoked. | Get a new token (steps 1 and 2). |
-| 401 | 9017 | The token was granted for a different ORCID iD. | Use the `orcid` from the token response in the URL. |
+| 400 | 9047 | An unknown field, an empty string, or a year outside 1900-2100. | Read the text after "Full validation error" in `developer-message`. |
+| 400 | | The body isn't JSON at all. The answer is plain text with the parser's message, not an ORCID error. | Check the JSON. |
+| 401 | `invalid_token` | The token is unknown, expired or revoked. | Get a new token (steps 1 and 2). |
+| 401 | 9017 | The token was granted for a different ORCID iD, or the iD in the URL doesn't exist. | Use the `orcid` from the token response in the URL. |
+| 403 | `forbidden` | No token was sent, or the token belongs to a public client. | Send the `Authorization: Bearer` header with a member client's token. |
 | 403 | 9038 | The token doesn't have `/activities/update`. | Ask for that scope in step 1. |
-| 404 | 9016 | The ORCID iD doesn't exist. | Check the iD in the URL. |
 | 409 | 9021 | Your client already added an employment with the same `self` external identifier. | Update the existing item with PUT. Its put-code is in `developer-message`. |
